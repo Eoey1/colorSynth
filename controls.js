@@ -16,7 +16,7 @@ function Controls() {
         for (var i = 0; i < this.letters.length; i++)
         {
             if (keyIsPressed === true && key === this.letters[i]) {
-                colours.poleEnvelopes[i].trigger();  
+                onePoles.envelopes[i].trigger();  
             
                 for (var j = 0; j < sequencer.cycleLength; j++) { // this loop lets you adjust the sequencer values from the keyboard
                     if (sequencer.isSelected[j] == true) {
@@ -30,7 +30,7 @@ function Controls() {
     this.keyReleased = function() {
         for (var i = 0; i < this.keys.length; i++) {
             if(keyCode === this.keys[i]) {
-                colours.poleEnvelopes[i].release();
+                onePoles.envelopes[i].release();
             }
         }
     }

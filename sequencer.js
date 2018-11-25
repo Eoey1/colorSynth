@@ -296,8 +296,8 @@ function Sequencer(x, y) {
                 }
                 
                 // release all onepole envelopes
-                for (var i = 0; i <  colours.poleEnvelopes.length; i++) {
-                    colours.poleEnvelopes[i].release();
+                for (var i = 0; i <  onePoles.envelopes.length; i++) {
+                    onePoles.envelopes[i].release();
                 }
 
                 midiKeyboard.presetButtons[0].isActive = false;
@@ -321,8 +321,8 @@ function Sequencer(x, y) {
                 }
                 
                 // release all onepole envelopes
-                for (var i = 0; i <  colours.poleEnvelopes.length; i++) {
-                    colours.poleEnvelopes[i].release();
+                for (var i = 0; i <  onePoles.envelopes.length; i++) {
+                    onePoles.envelopes[i].release();
                 }
 
                 this.reset[1] = true;    
@@ -365,8 +365,8 @@ function Sequencer(x, y) {
                 }
                 
                 // release all onepole envelopes
-                for (var i = 0; i <  colours.poleEnvelopes.length; i++) {
-                    colours.poleEnvelopes[i].release();
+                for (var i = 0; i <  onePoles.envelopes.length; i++) {
+                    onePoles.envelopes[i].release();
                 }
 
                 midiKeyboard.presetButtons[1].isActive = false;
@@ -408,8 +408,8 @@ function Sequencer(x, y) {
                 }
                 
                 // release all onepole envelopes
-                for (var i = 0; i <  colours.poleEnvelopes.length; i++) {
-                    colours.poleEnvelopes[i].release();
+                for (var i = 0; i <  onePoles.envelopes.length; i++) {
+                    onePoles.envelopes[i].release();
                 }
 
                 //midiKeyboard.presetButtons[0].isActive = false;
@@ -470,11 +470,11 @@ function Sequencer(x, y) {
         for (var i = 0; i < this.cycleLength; i++) {
             if (this.isActive[i] && this.values[i] > 0) {
                 if (this.playhead % this.cycleLength == i) {
-                    colours.poleEnvelopes[this.values[i] - 1].trigger();
+                    onePoles.envelopes[this.values[i] - 1].trigger();
                 } 
                 
                 else {
-                    colours.poleEnvelopes[this.values[i] - 1].release();
+                    onePoles.envelopes[this.values[i] - 1].release();
                 }
             }
         }
@@ -488,98 +488,98 @@ function Sequencer(x, y) {
         if (this.playhead % 8 == 1) {
             trigs[0] = 1;
             console.log("triggered!")
-            colours.poleEnvelopes[0].trigger();
+            onePoles.envelopes[0].trigger();
         } else {
-            colours.poleEnvelopes[0].release();
+            onePoles.envelopes[0].release();
         }
 
         if (this.playhead % 8 == 2 ) {
             trigs[5] = 1;
-            colours.poleEnvelopes[5].trigger();
+            onePoles.envelopes[5].trigger();
         } else {
-            colours.poleEnvelopes[5].release();
+            onePoles.envelopes[5].release();
         }
 
         if (this.playhead % 8 == 3 | this.playhead % 8 == 7 ) {
             trigs[7] = 1;
-            colours.poleEnvelopes[7].trigger();
+            onePoles.envelopes[7].trigger();
         } else {
-            colours.poleEnvelopes[7].release();
+            onePoles.envelopes[7].release();
         }
 
         if (this.playhead % 8 == 4 ) {
             trigs[8] = 1;
-            colours.poleEnvelopes[8].trigger();
+            onePoles.envelopes[8].trigger();
         } else {
-            colours.poleEnvelopes[8].release();
+            onePoles.envelopes[8].release();
         }
 
         if (this.playhead % 8 == 5 ) {
             trigs[1] = 1;
-            colours.poleEnvelopes[1].trigger();
+            onePoles.envelopes[1].trigger();
         } else {
             trigs[1] = 0;
-            colours.poleEnvelopes[1].release();
+            onePoles.envelopes[1].release();
         }
 
         if (this.playhead % 8 == 6 ) {
             trigs[12] = 1;
-            colours.poleEnvelopes[12].trigger();
+            onePoles.envelopes[12].trigger();
         } else {
-            colours.poleEnvelopes[12].release();
+            onePoles.envelopes[12].release();
         }
     }
     
     this.sequence2 = function() {
         if (this.playhead % 16 == 1 | this.playhead % 16 == 5 ) {
             trigs[0] = 1;
-            colours.poleEnvelopes[0].trigger();
+            onePoles.envelopes[0].trigger();
         } else {
-            colours.poleEnvelopes[0].release();
+            onePoles.envelopes[0].release();
         }
 
         if (this.playhead % 16 == 2 | this.playhead % 16 == 6 | this.playhead % 16 == 10) {
             trigs[5] = 1;
-            colours.poleEnvelopes[5].trigger();
+            onePoles.envelopes[5].trigger();
         } else {
-            colours.poleEnvelopes[5].release();
+            onePoles.envelopes[5].release();
         }
 
         if (this.playhead % 16 == 3 | this.playhead % 16 == 7 | this.playhead % 16 == 11 | this.playhead % 16 == 0) {
             trigs[7] = 1;
-            colours.poleEnvelopes[7].trigger();
+            onePoles.envelopes[7].trigger();
         } else {
-            colours.poleEnvelopes[7].release();
+            onePoles.envelopes[7].release();
         }
 
         if (this.playhead % 16 == 4 | this.playhead % 16 == 8 | this.playhead % 16 == 12 | this.playhead % 16 == 15) {
             trigs[8] = 1;
-            colours.poleEnvelopes[8].trigger();
+            onePoles.envelopes[8].trigger();
         }
         else {
-            colours.poleEnvelopes[8].release();
+            onePoles.envelopes[8].release();
         }
 
         if (this.playhead % 16 == 9) {
             trigs[1] = 1;
-            colours.poleEnvelopes[1].trigger();
+            onePoles.envelopes[1].trigger();
         } else {
             trigs[1] = 0;
-            colours.poleEnvelopes[1].release();
+            onePoles.envelopes[1].release();
         }
 
         if (this.playhead % 16 == 13 ) {
             trigs[3] = 1;
-            colours.poleEnvelopes[3].trigger();
+            onePoles.envelopes[3].trigger();
         } else {
-            colours.poleEnvelopes[3].release();
+            onePoles.envelopes[3].release();
         }
 
         if (this.playhead % 16 == 14 ) {
             trigs[10] = 1;
-            colours.poleEnvelopes[10].trigger();
+            onePoles.envelopes[10].trigger();
         } else {
-            colours.poleEnvelopes[10].release();
+            onePoles.envelopes[10].release();
         }
     }
 }

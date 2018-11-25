@@ -1,5 +1,5 @@
 function Keyboard(x, y) {  
-    // colours in HSL
+    //colours in HSL
     this.hsl = [[0, 100, 50], [274, 100, 50], [60, 100, 50], [323, 45, 50], [193, 100, 88], [342, 100, 34], [234, 97, 75], [30, 100, 50], [271, 96, 72], [120, 60, 50], [341, 28, 53], [209, 100, 78], [0, 100, 50]];
     
     this.h = [];
@@ -59,7 +59,7 @@ function Keyboard(x, y) {
     this.isTriggered = [];
     
     // this wasn't working before since I was initialising the keyboard before the number of one poles was specified
-    for (var i = 0; i < colours.poleEnvelopes.length; i++) {
+    for (var i = 0; i < onePoles.envelopes.length; i++) {
         this.isTriggered.push(false);            
     }
     
@@ -254,7 +254,7 @@ function Keyboard(x, y) {
 
             noStroke();
 
-            this.a = colours.alphaValues.slice();
+            this.a = onePoles.alphavalues.slice();
 
             this.a.splice(1, 1);
             this.a.splice(2, 1);
@@ -298,18 +298,18 @@ function Keyboard(x, y) {
             if (mouseIsPressed) {
                 if (mouseX >= this.x + (i * this.spacing) && mouseX < (this.x + this.w) + (i * this.spacing)) {
                     if (mouseY >= this.y && mouseY < this.y + this.h) {
-                        colours.poleEnvelopes[this.values[i]].trigger();
+                        onePoles.envelopes[this.values[i]].trigger();
                         this.isTriggered[this.values[i]] = true;
                     }
                 } else {
                     if (this.isTriggered[this.values[i]] == true) {
-                        colours.poleEnvelopes[this.values[i]].release();
+                        onePoles.envelopes[this.values[i]].release();
                         this.isTriggered[this.values[i]] = false;
                     }
                 }
             } else if (!mouseIsPressed) {
                 if (this.isTriggered[this.values[i]] == true) {
-                    colours.poleEnvelopes[this.values[i]].release();
+                    onePoles.envelopes[this.values[i]].release();
                     this.isTriggered[this.values[i]] = false;
                 }
             }
@@ -321,18 +321,18 @@ function Keyboard(x, y) {
             if (mouseIsPressed) {
                 if (mouseX >= this.x + (i * this.spacing) && mouseX < (this.x + this.w) + (i * this.spacing)) {
                     if (mouseY >= this.y && mouseY < this.y + this.h) {
-                        colours.poleEnvelopes[this.values[i + 2]].trigger();
+                        onePoles.envelopes[this.values[i + 2]].trigger();
                         this.isTriggered[this.values[i + 2]] = true;
                     }
                 } else {
                     if (this.isTriggered[this.values[i + 2]] == true) {
-                        colours.poleEnvelopes[this.values[i + 2]].release();
+                        onePoles.envelopes[this.values[i + 2]].release();
                         this.isTriggered[this.values[i + 2]] = false;
                     }
                 }
             }  else if (!mouseIsPressed) {
                 if (this.isTriggered[this.values[i + 2]] == true) {
-                    colours.poleEnvelopes[this.values[i + 2]].release();
+                    onePoles.envelopes[this.values[i + 2]].release();
                     this.isTriggered[this.values[i + 2]] = false;
                 }
             }
@@ -353,7 +353,7 @@ function Keyboard(x, y) {
         for (var i = 0; i < 2; i++) {  
             if (mouseX >= this.x + (i * this.spacing) && mouseX < (this.x + this.w) + (i * this.spacing)) {
                 if (mouseY >= this.y && mouseY < this.y + this.h) {
-                    colours.poleEnvelopes[this.values[i]].release();
+                    onePoles.envelopes[this.values[i]].release();
                     this.isTriggered[this.values[i]] = false;
                 }
             }
@@ -364,7 +364,7 @@ function Keyboard(x, y) {
         for (var i = 0; i < 3; i++) {  
             if (mouseX >= this.x + (i * this.spacing) && mouseX < (this.x + this.w) + (i * this.spacing)) {
                 if (mouseY >= this.y && mouseY < this.y + this.h) {
-                    colours.poleEnvelopes[this.values[i + 2]].release();
+                    onePoles.envelopes[this.values[i + 2]].release();
                     this.isTriggered[this.values[i + 2]] = false;
                 }
             }
@@ -380,18 +380,18 @@ function Keyboard(x, y) {
                 //this works because the spacing and width are equal
                 if (mouseX >= (this.xPos + 30) + (i * 45) && mouseX < (this.xPos + 30) + ((i + 1) * 45)) {
                     if (mouseY >= this.yPos + 57 && mouseY < this.yPos + 57 + 180) {
-                        colours.poleEnvelopes[this.values[i]].trigger();
+                        onePoles.envelopes[this.values[i]].trigger();
                         this.isTriggered[this.values[i]] = true;
                     } 
                 } else {
                     if (this.isTriggered[this.values[i]] == true) {
-                        colours.poleEnvelopes[this.values[i]].release();
+                        onePoles.envelopes[this.values[i]].release();
                         this.isTriggered[this.values[i]] = false;
                     }
                 }   
             } else if (this.isTriggered[1] | this.isTriggered[3] | this.isTriggered[6] | this.isTriggered[8] | this.isTriggered[10]) {
                 if (this.isTriggered[this.values[i]] == true) {
-                    colours.poleEnvelopes[this.values[i]].release();
+                    onePoles.envelopes[this.values[i]].release();
                     this.isTriggered[this.values[i]] = false;
                 }    
             }
@@ -404,14 +404,14 @@ function Keyboard(x, y) {
 
         for (var i = 0; i < 8; i++) {  
             if (mouseX >= (this.xPos + 30) + (i * 45) && mouseX < (this.xPos + 30) + ((i + 1) * 45)) {
-                colours.poleEnvelopes[this.values[i]].release();
+                onePoles.envelopes[this.values[i]].release();
             }   
         }
 
 //        for (var i = 0; i < 8; i++) {  
 //            if (mouseX >= (this.xPos + 30) + (i * 45) && mouseX < (this.xPos + 30) + ((i + 1) * 45)) {
 //                if(!this.isTriggered[1] && !this.isTriggered[3] && !this.isTriggered[6] && !this.isTriggered[8] && !this.isTriggered[10]) {
-//                    colours.poleEnvelopes[this.values[i]].release();
+//                    onePoles.envelopes[this.values[i]].release();
 //                }   
 //            }
 //        }
@@ -491,7 +491,7 @@ function Keyboard(x, y) {
             push();
 
             noStroke();
-            this.a = colours.alphaValues.slice();
+            this.a = onePoles.alphavalues.slice();
 
             this.a.splice(0, 1);
             this.a.splice(1, 1);

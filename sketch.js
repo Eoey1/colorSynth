@@ -16,7 +16,7 @@ var midiKeyboard, noiseGen, oscilloscope;
 var controls, dial, circleDial;
 
 var sine, square, saw, triangle;
-var colours;
+var onePoles;
 
 var isPreset1, isPreset2, isPreset3, isPreset4;
 
@@ -54,8 +54,6 @@ function setup() {
     canvas.parent('sketch-div');
     canvas.style('z-index', '-1');
     
-//    pixelDensity(3.0);
-    
     audio.play = audioLoop;
     audio.outputIsArray(true, 2); //we are working stereo now !
     audio.init();
@@ -71,7 +69,7 @@ function setup() {
     noiseGen = new Generator(margin, height / 2 + margin);
     
     sequencer = new Sequencer(width / 2 - margin, height / 2 + height / 15);
-//    sequencer = new Sequencer(width / 2 - margin, height * 3 / 5);
+    //sequencer = new Sequencer(width / 2 - margin, height * 3 / 5);
     
     dial = new Dial(width / 2 + margin, height / 5 + margin, height / 12);
     //console.log(dial.centreX, dial.centreY);
@@ -88,7 +86,7 @@ function setup() {
     
     isPreset1 = isPreset2 = isPreset3 = isPreset4 = false;
     
-    colours = new Colours();
+    onePoles = new Poles();
     
     for (var i = 0; i < keyboardLength; i++) {
         notesC3.push(new Note(48 + i));
@@ -108,7 +106,7 @@ function draw() {
     controls.keyTyped();
     
     //this displays the colours triggered by the one poles 
-    colours.display();    
+    onePoles.display();    
     
     
     midiKeyboard.pressedFirst();
@@ -116,12 +114,7 @@ function draw() {
     
     controls.arrowKeys();
     
-    
     //sequencer.succession();
-    
-    
-    
-    
     
     push();
     midiKeyboard.display();
@@ -144,7 +137,6 @@ function draw() {
     sequencer.draw();
     pop();
     
-    //updateLabels(dial.t.toFixed(0));
 }
 
 function audioLoop() {   
@@ -163,11 +155,14 @@ function audioLoop() {
     
     controls.midiKeys();
     //controls.arrowKeys();
+    
+    /* since you are using the logic for triggering the onepole filters with the midiPressed functions
+       the pressedFirst() function has to be in the audio loop otherwise there will be a lag */
+    midiKeyboard.pressedFirst();
     midiKeyboard.midiPressed();
     midiKeyboard.midiPressedFirst();
     
     sequencer.timer();
-    //sequencer.sequence1();
     
     //midiKeyboard.pressed();
     //midiKeyboard.amplitude();
@@ -175,14 +170,13 @@ function audioLoop() {
     noiseGen.amplitude();
     noiseGen.slider.pressed();
     noiseGen.dial.noiseColours();
-        
-    //dryMix = 0.5;
     
     var sig1 = sine.waves.reduce(add, 0);
     var sig2 = saw.waves.reduce(add, 0);
     var sig3 = square.waves.reduce(add, 0);
     var sig4 = triangle.waves.reduce(add, 0);
     
+    //this determines whether sig 5 is white, pink or brown noise according to the position of the dial
     if (noiseGen.dial.white) {
         var sig5 = noiseGen.white();
     } else if (noiseGen.dial.pink) {
@@ -193,15 +187,19 @@ function audioLoop() {
     
     // need to adjust levels separately so naturally louder waveforms start at the same level as naturally quieter waveforms
     var synthOutput = sig1 + sig2 + sig3 + sig4 * 0.5;
-//    var synthOutput = sig1 + sig2 * 0.5 + (sig3 * 0.000005) + sig4 * 0.8;
-    //var noiseOutput = sig5 * 0.1 + sig6 * 0.1 + sig7 * 0.1;
     var noiseOutput = sig5 * 0.25;
-//    var noiseOutput = sig5 * 0.1;
+
+    //delay
     var fx = delay.dl(synthOutput, 44100 * time, regen);
     var mix = (fx * (1.0 - dryMix) + (synthOutput * dryMix));
+    
+    //applying the filter only to keyboard output and fx
     var filteredOutput = myFilter.highpass(mix, dial.lc);
     var modularOut = filteredOutput + noiseOutput * 0.5 + sequencer.metronome * 0.2;
+    
+    //this applies the filter to the whole output including the noise generator
     //var filteredOutput = myFilter.highpass(modularOut, dial.lc);
+    
     panner.stereo(modularOut, stereoOutput, panValue);
     this.output[0] = stereoOutput.get(0);
     this.output[1] = stereoOutput.get(1);
@@ -215,14 +213,6 @@ function audioLoop() {
 
 function add(a, b) {
     return a + b;
-}
-
-function updateLabels(x) {
-    var xLabel = document.getElementById('x-label');
-    xLabel.innerHTML = x;
-
-//    var yLabel = document.getElementById('y-label');
-//    yLabel.innerHTML = 'Y: ' + y;
 }
 
 function mousePressed() {
@@ -257,23 +247,6 @@ function keyReleased() {
 
 function keyTyped() {
     //controls.keyTyped();
-}
-
-function mouseDragged() {
-//    for (f in midiKeyboard.faders) {
-//        if (midiKeyboard.faders[f].isInside(mouseX, mouseY)) {
-//            midiKeyboard.faders[f].slide(mouseY);
-//            break;
-//        }
-//    }
-    
-//    for (var i = 0; i < 4; i++) {
-//        if(midiKeyboard.faders[i].isInside(mouseX - midiKeyboard.faderX / 2 - i * midiKeyboard.space / 2, mouseY - midiKeyboard.faderY / 2)) {
-//            midiKeyboard.faders[i].slide(mouseY - midiKeyboard.faderY / 2);
-//        }
-//        
-//    }  
-    
 }
 
 //maybe if it's just the dipslay that takes the size arguments for drawing?
