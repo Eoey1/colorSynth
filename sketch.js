@@ -171,6 +171,9 @@ function audioLoop() {
     noiseGen.slider.pressed();
     noiseGen.dial.noiseColours();
     
+    sequencer.amplitude();
+    sequencer.slider.pressed();
+    
     var sig1 = sine.waves.reduce(add, 0);
     var sig2 = saw.waves.reduce(add, 0);
     var sig3 = square.waves.reduce(add, 0);
@@ -225,14 +228,13 @@ function mousePressed() {
     
     dial.pressed();
     sequencer.pressed();    
-    //midiKeyboard.isPressed();
     noiseGen.dial.pressed();
 }
 
 function mouseReleased() {
     noiseGen.dial.released();
     
-    // having this extra released function definitely helps!  Maybe something you could incorporate into the onePoles soloution?
+    //having this extra released function definitely helps!  Maybe something you could incorporate into the onePoles soloution?
     //midiKeyboard.releasedFirst();
     midiKeyboard.released();
 }

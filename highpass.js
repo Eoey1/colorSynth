@@ -64,7 +64,7 @@ function Dial(x, y, size) {
         this.lc = constrain(this.level, 0, 3000);
         
         //map this level to the level you want to use for the display
-        this.l = map(this.lc, 0 , 8000, 0, 100);
+        this.l = map(this.lc, 0 , 3000, 0, 100);
         
         this.titleCSS();
         this.display();

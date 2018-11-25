@@ -29,7 +29,7 @@ function Sequencer(x, y) {
     this.displayHeight = this.displayWidth * 2 / 3;
     
     // vector to help reduce code
-    this.displayPos = createVector(this.xPos + this.width / 25, this.yPos + this.height - this.height / 3);
+    this.displayPos = createVector(this.xPos + this.width / 25, this.yPos + this.height * 13 / 24);
     
     // specifies how many steps the sequencer has
     this.cycleLength = 8;
@@ -39,6 +39,8 @@ function Sequencer(x, y) {
     this.isSelected = []
     this.isActive = [];
     this.isPressed = [];
+    
+    this.tempo = 4;
 
     for (var i = 0; i <  this.cycleLength; i++) {
         this.isSelected.push(false);
@@ -65,9 +67,12 @@ function Sequencer(x, y) {
         this.reset.push(false);
     }
     
+    this.slider = new Neutron(this.xPos + this.width * 3 / 18, this.yPos + this.height * 5 / 6, this.width * 2 / 3, this.height / 10);
+    
     this.draw = function() {
         this.chassis();
         this.display();
+        this.slider.draw();
     }
     
      this.chassis = function() {
@@ -76,6 +81,11 @@ function Sequencer(x, y) {
         fill(25);
         rect(this.xPos, this.yPos, this.width, this.height);
     } 
+     
+    this.amplitude = function() {
+        this.slider.mapping();
+        this.tempo = this.slider.value;
+    }
     
     this.display = function() {
         push();
@@ -221,7 +231,7 @@ function Sequencer(x, y) {
     this.timer = function() {
         if (this.isPlaying) {
 
-            this.currentCount = timer.phasor(4);
+            this.currentCount = timer.phasor(this.tempo);
 
             if (this.currentCount < 0.5 && !this.isTriggered) {
                 //this sets up a metronome that ticks 4 times a second
