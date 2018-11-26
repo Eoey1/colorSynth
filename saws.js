@@ -14,16 +14,16 @@ function Saw() {
     
     this.output = function() {
         if (octaveValue < 1) {
-            for (var i = 0; i < notesC3.length; i++) {
-                this.waves[i] = notesC4[i].waveform3() * this.envelopes[i].adsr(this.amps, trigs[i]);    
+            for (var i = 0; i < notes[1].length; i++) {
+                this.waves[i] = notes[1][i].waveform3() * this.envelopes[i].adsr(this.amps, trigs[i]);    
             }
         } else if (octaveValue == 1) {
-            for (var i = 0; i < notesC4.length; i++) {
-                this.waves[i] = notesC5[i].waveform3() * this.envelopes[i].adsr(this.amps, trigs[i]);    
+            for (var i = 0; i < notes[2].length; i++) {
+                this.waves[i] = notes[2][i].waveform3() * this.envelopes[i].adsr(this.amps, trigs[i]);    
             }
         } else if (octaveValue > 1) {
-            for (var i = 0; i < notesC5.length; i++) {
-                this.waves[i] = notesC5[i].waveform3() * this.envelopes[i].adsr(this.amps, trigs[i]);    
+            for (var i = 0; i < notes[3].length; i++) {
+                this.waves[i] = notes[3][i].waveform3() * this.envelopes[i].adsr(this.amps, trigs[i]);    
             }
         }
     }

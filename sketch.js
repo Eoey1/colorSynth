@@ -20,6 +20,9 @@ var onePoles;
 
 var isPreset1, isPreset2, isPreset3, isPreset4;
 
+var notes = [];
+var n = [];
+
 var notesC3 = [];
 var notesC4 = [];
 var notesC5 = [];
@@ -40,6 +43,7 @@ var panLevel = 0.5;
 var panValue = 0.5;
 
 var sequencer;
+var sequencerPoles = [];
 var timer = new maximJs.maxiOsc(); 
 
 var canvas;
@@ -87,11 +91,16 @@ function setup() {
     isPreset1 = isPreset2 = isPreset3 = isPreset4 = false;
     
     onePoles = new Poles();
+    sequencerPoles;
     
-    for (var i = 0; i < keyboardLength; i++) {
-        notesC3.push(new Note(48 + i));
-        notesC4.push(new Note(60 + i));
-        notesC5.push(new Note(72 + i));
+    for (var i = 0; i < 4; i++) {
+        notes.push(new Array(12));
+    }
+        
+    for (var i = 0; i < 13; i++) {
+        for (var j = 0; j < 4; j++) {
+            notes[j][i] = new Note(48 + (j * 12) + i);
+        }
         
         trigs.push(0);
     }
@@ -106,7 +115,9 @@ function draw() {
     controls.keyTyped();
     
     //this displays the colours triggered by the one poles 
-    onePoles.display();    
+    onePoles.display();   
+    
+    //onePoles.alphavalues[1] *= controls.envelope.damp(0.1, 0.5);
     
     
     midiKeyboard.pressedFirst();

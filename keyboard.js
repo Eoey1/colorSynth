@@ -300,6 +300,12 @@ function Keyboard(x, y) {
                     if (mouseY >= this.y && mouseY < this.y + this.h) {
                         onePoles.envelopes[this.values[i]].trigger();
                         this.isTriggered[this.values[i]] = true;
+                        
+                        for (var j = 0; j < sequencer.cycleLength; j++) { // this loop lets you adjust the sequencer values from the keyboard
+                            if (sequencer.isActive[j] == true) {
+                                    sequencer.values[j] = this.values[i] + 1; 
+                            }
+                        }  
                     }
                 } else {
                     if (this.isTriggered[this.values[i]] == true) {
@@ -323,6 +329,12 @@ function Keyboard(x, y) {
                     if (mouseY >= this.y && mouseY < this.y + this.h) {
                         onePoles.envelopes[this.values[i + 2]].trigger();
                         this.isTriggered[this.values[i + 2]] = true;
+                        
+                        for (var j = 0; j < sequencer.cycleLength; j++) { // this loop lets you adjust the sequencer values from the keyboard
+                            if (sequencer.isActive[j] == true) {
+                                    sequencer.values[j] = this.values[i + 2] + 1; 
+                            }
+                        }  
                     }
                 } else {
                     if (this.isTriggered[this.values[i + 2]] == true) {
@@ -381,6 +393,14 @@ function Keyboard(x, y) {
                 if (mouseX >= (this.xPos + 30) + (i * 45) && mouseX < (this.xPos + 30) + ((i + 1) * 45)) {
                     if (mouseY >= this.yPos + 57 && mouseY < this.yPos + 57 + 180) {
                         onePoles.envelopes[this.values[i]].trigger();
+                        
+                        //change sequencer value if note is pressed
+                        for (var j = 0; j < sequencer.cycleLength; j++) { // this loop lets you adjust the sequencer values from the keyboard
+                            if (sequencer.isActive[j] == true) {
+                                    sequencer.values[j] = this.values[i] + 1; 
+                            }
+                        }    
+                        
                         this.isTriggered[this.values[i]] = true;
                     } 
                 } else {

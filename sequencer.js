@@ -252,8 +252,8 @@ function Sequencer(x, y) {
                 this.cycle();
                 
                 //one pole filters
-                this.progression();
-                
+                //this.progression();
+                this.sequence();
             } 
             
             else if (this.currentCount > 0.5) {
@@ -278,6 +278,7 @@ function Sequencer(x, y) {
 
             if (this.set[0] == false) {
                 this.values = [1, 6, 8, 9, 2, 13, 8, 0];
+                this.tempo = 4;
 
                 midiKeyboard.presetButtons[0].isActive = true;
                 //midiKeyboard.presetButtons[0].press();
@@ -299,6 +300,7 @@ function Sequencer(x, y) {
 
             if (this.reset[0] == false) {
                 //this.values = [0, 0, 0, 0, 0, 0, 0, 0];
+                this.tempo = 0;
                 
                 // reset each step of the sequence to 0
                 for (var i = 0; i < this.values.length; i++) {
@@ -319,7 +321,29 @@ function Sequencer(x, y) {
         }
                 
         if (this.isLit[1]) {
-            this.sequence2();
+            this.reset[1] = false;
+
+            if (this.set[1] == false) {
+                if (this.playhead % 16 < 8) {
+                    this.values = [1, 6, 8, 9, 1, 6, 8, 9];
+                } else if (this.playhead % 16 >= 8) {
+                    this.values = [2, 6, 8, 9, 4, 11, 9, 8];
+                }
+                
+                midiKeyboard.presetButtons[2].isActive = true;
+                button2CB();
+
+                for (var i = 0; i < this.values.length; i++) {
+                    if (this.values[i] > 0) {
+                        this.isActive[i] = true;
+                    } 
+                }
+
+                //this was set at this.set[0] = true and achieved desired results...
+                //this.set[1] = true;
+                
+                //commenting this out means the changing displays work but you won't be able to edit this sequence!
+            }  
         }
         
         else if (!this.isLit[1]) {
@@ -334,6 +358,9 @@ function Sequencer(x, y) {
                 for (var i = 0; i <  onePoles.envelopes.length; i++) {
                     onePoles.envelopes[i].release();
                 }
+                
+                midiKeyboard.presetButtons[2].isActive = false;
+                button2CB();
 
                 this.reset[1] = true;    
             }      
@@ -443,7 +470,7 @@ function Sequencer(x, y) {
     // This is a 16 step version of the sequencer which uses the progression function to trigger the one poles
     this.succession = function() {
         if (this.isPlaying) {
-            this.currentCount = timer.phasor(4);
+            this.currentCount = timer.phasor(this.tempo);
 
             if (this.currentCount < 0.5 && !this.isTriggered) {
                 this.playhead = (this.playhead + 1) % 16; 
@@ -481,88 +508,158 @@ function Sequencer(x, y) {
             if (this.isActive[i] && this.values[i] > 0) {
                 if (this.playhead % this.cycleLength == i) {
                     onePoles.envelopes[this.values[i] - 1].trigger();
-                } 
-                
-                else {
+                } else {
                     onePoles.envelopes[this.values[i] - 1].release();
                 }
             }
         }
     }
     
-    // these two sequences that use | in their conditionals solve the problem of certain notes not triggering their corresponding one pole
+    this.sequence = function() {
+        if (this.playhead % 8 == 0) {
+            //release the previous envelope
+            if (this.values[7] > 0) {
+                onePoles.envelopes[this.values[7] - 1].release();
+            }
+
+            //trigger the next one
+            if (this.isActive[0] && this.values[0] > 0) {
+                onePoles.envelopes[this.values[0] - 1].trigger();
+            }
+        } else if (this.playhead % 8 == 1) {
+            //release the previous envelope
+            if (this.values[0] > 0) {
+                onePoles.envelopes[this.values[0] - 1].release();
+            }
+
+            //trigger the next one
+            if (this.isActive[1] && this.values[1] > 0) {
+                onePoles.envelopes[5].trigger();
+            }
+        } else if (this.playhead % 8 == 2) {
+            //release the previous envelope
+            if (this.values[1] > 0) {
+                onePoles.envelopes[this.values[1] - 1].release();
+            }
+
+            //trigger the next one
+            if (this.isActive[2] && this.values[2] > 0) {
+                onePoles.envelopes[this.values[2] - 1].trigger();
+            }
+        } else if (this.playhead % 8 == 3) {
+            //release the previous envelope
+            if (this.values[2] > 0) {
+                onePoles.envelopes[this.values[2] - 1].release();
+            }
+
+            //trigger the next one
+            if (this.isActive[3] && this.values[3] > 0) {
+                onePoles.envelopes[this.values[3] - 1].trigger();
+            }
+        } else if (this.playhead % 8 == 4) {
+            //release the previous envelope
+            if (this.values[3] > 0) {
+                onePoles.envelopes[this.values[3] - 1].release();
+            }
+            
+            //trigger the next one
+            if (this.isActive[4] && this.values[4] > 0) {
+                onePoles.envelopes[this.values[4] - 1].trigger();
+            }
+        } else if (this.playhead % 8 == 5) {
+            //release the previous envelope
+            if (this.values[4] > 0) {
+                onePoles.envelopes[this.values[4] - 1].release();
+            }
+            
+            //trigger the next one
+            if (this.isActive[5] && this.values[5] > 0) {
+                onePoles.envelopes[this.values[5] - 1].trigger(); 
+            }  
+        } else if (this.playhead % 8 == 6) {
+            //release the previous envelope
+            if (this.values[5] > 0) {
+                onePoles.envelopes[this.values[5] - 1].release();
+            }
+            
+            //trigger the next one
+            if (this.isActive[6] && this.values[6] > 0) {
+                onePoles.envelopes[this.values[6] - 1].trigger(); 
+            }
+        } else if (this.playhead % 8 == 7) {
+            //release the previous envelope
+            if (this.values[6] > 0) {
+                onePoles.envelopes[this.values[6] - 1].release();
+            }
+            
+            //trigger the next one
+            if (this.isActive[7] && this.values[7] > 0) {
+                onePoles.envelopes[this.values[7] - 1].trigger(); 
+            }  
+        }
+    }
+    
+    // these two sequences that use || in their conditionals solve the problem of certain notes not triggering their corresponding one pole
     this.sequence1 = function() {
         /* Works really well with the delay!*/
 
         // trigger  beat every 8 beats
         if (this.playhead % 8 == 1) {
             trigs[0] = 1;
-            console.log("triggered!")
             onePoles.envelopes[0].trigger();
-        } else {
+        } else if (this.playhead % 8 == 2 ) {
             onePoles.envelopes[0].release();
-        }
-
-        if (this.playhead % 8 == 2 ) {
             trigs[5] = 1;
             onePoles.envelopes[5].trigger();
-        } else {
+        } else if (this.playhead % 8 == 3 ) {
             onePoles.envelopes[5].release();
-        }
-
-        if (this.playhead % 8 == 3 | this.playhead % 8 == 7 ) {
             trigs[7] = 1;
             onePoles.envelopes[7].trigger();
-        } else {
+        } else if (this.playhead % 8 == 4 ) {
             onePoles.envelopes[7].release();
-        }
-
-        if (this.playhead % 8 == 4 ) {
             trigs[8] = 1;
             onePoles.envelopes[8].trigger();
-        } else {
-            onePoles.envelopes[8].release();
-        }
-
-        if (this.playhead % 8 == 5 ) {
+        } else if (this.playhead % 8 == 5 ) {
             trigs[1] = 1;
             onePoles.envelopes[1].trigger();
-        } else {
-            trigs[1] = 0;
-            onePoles.envelopes[1].release();
-        }
-
-        if (this.playhead % 8 == 6 ) {
+        } else if (this.playhead % 8 == 6 ) {
+            onePoles.envelopes[1].trigger();
             trigs[12] = 1;
             onePoles.envelopes[12].trigger();
-        } else {
+        } else if (this.playhead % 8 == 7 ) {
             onePoles.envelopes[12].release();
+            trigs[7] = 1;
+            onePoles.envelopes[7].trigger(); 
+        } else {
+            for (var i = 0; i < 13; i++) {
+                onePoles.envelopes[i].release();
+            } 
         }
     }
     
     this.sequence2 = function() {
-        if (this.playhead % 16 == 1 | this.playhead % 16 == 5 ) {
+        if (this.playhead % 16 == 1 || this.playhead % 16 == 5 ) {
             trigs[0] = 1;
             onePoles.envelopes[0].trigger();
         } else {
             onePoles.envelopes[0].release();
         }
 
-        if (this.playhead % 16 == 2 | this.playhead % 16 == 6 | this.playhead % 16 == 10) {
+        if (this.playhead % 16 == 2 || this.playhead % 16 == 6 || this.playhead % 16 == 10) {
             trigs[5] = 1;
             onePoles.envelopes[5].trigger();
         } else {
             onePoles.envelopes[5].release();
         }
 
-        if (this.playhead % 16 == 3 | this.playhead % 16 == 7 | this.playhead % 16 == 11 | this.playhead % 16 == 0) {
+        if (this.playhead % 16 == 3 || this.playhead % 16 == 7 || this.playhead % 16 == 11 || this.playhead % 16 == 0) {
             trigs[7] = 1;
             onePoles.envelopes[7].trigger();
         } else {
             onePoles.envelopes[7].release();
         }
 
-        if (this.playhead % 16 == 4 | this.playhead % 16 == 8 | this.playhead % 16 == 12 | this.playhead % 16 == 15) {
+        if (this.playhead % 16 == 4 || this.playhead % 16 == 8 || this.playhead % 16 == 12 || this.playhead % 16 == 15) {
             trigs[8] = 1;
             onePoles.envelopes[8].trigger();
         }
