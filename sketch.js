@@ -21,11 +21,7 @@ var onePoles;
 var isPreset1, isPreset2, isPreset3, isPreset4;
 
 var notes = [];
-var n = [];
 
-var notesC3 = [];
-var notesC4 = [];
-var notesC5 = [];
 var octaveLevel = 1;
 var octaveValue = 1;
 
@@ -64,11 +60,11 @@ function setup() {
     
     var margin = height / 20;
     
+    //why is keyboard setup last?
     //midiKeyboard = new Keyboard(margin, margin);
     
     oscilloscope = new Oscilloscope();
     //oscilloscope = new Oscilloscope(width - width / 3, height / 6);
-    //oscilloscope = new Oscilloscope();
     
     noiseGen = new Generator(margin, height / 2 + margin);
     
@@ -76,10 +72,6 @@ function setup() {
     //sequencer = new Sequencer(width / 2 - margin, height * 3 / 5);
     
     dial = new Dial(width / 2 + margin, height / 5 + margin, height / 12);
-    //console.log(dial.centreX, dial.centreY);
-    //console.log(dial.centreX - dial.radius, dial.centreY - dial.radius * 1.25); 
-    //console.log(windowWidth);
-    //console.log(windowHeight);
     
     controls = new Controls();
     
@@ -98,6 +90,7 @@ function setup() {
     }
         
     for (var i = 0; i < 13; i++) {
+        //initialise midi notes
         for (var j = 0; j < 4; j++) {
             notes[j][i] = new Note(48 + (j * 12) + i);
         }
@@ -117,13 +110,16 @@ function draw() {
     //this displays the colours triggered by the one poles 
     onePoles.display();   
     
-    //onePoles.alphavalues[1] *= controls.envelope.damp(0.1, 0.5);
-    
-    
+    //black notes
     midiKeyboard.pressedFirst();
+    
+    //white notes
     midiKeyboard.pressed();
     
     controls.arrowKeys();
+    
+    /* this idea is putting the sequence for the onepoles in a separate timer that runs at the speed of the draw loop
+       to potentially avoid some of the envelopes not releasing */
     
     //sequencer.succession();
     
@@ -169,14 +165,20 @@ function audioLoop() {
     
     /* since you are using the logic for triggering the onepole filters with the midiPressed functions
        the pressedFirst() function has to be in the audio loop otherwise there will be a lag */
+    
     midiKeyboard.pressedFirst();
     midiKeyboard.midiPressed();
     midiKeyboard.midiPressedFirst();
     
     sequencer.timer();
     
-    //midiKeyboard.pressed();
-    //midiKeyboard.amplitude();
+    //the faders were causing glitching because the pressed function was being used in the display function of the keyboard which was being called in the draw loop
+    //which was running too slowly
+    midiKeyboard.amplitude();
+    
+    for (var i = 0; i < midiKeyboard.sh.length; i++) {
+        midiKeyboard.sh[i].pressed();
+    }
     
     noiseGen.amplitude();
     noiseGen.slider.pressed();
@@ -225,6 +227,30 @@ function audioLoop() {
     noiseGen.sigBufs.push(noiseOutput);
 }
 
+function transient() {
+    for (var i = 0; i < 13; i++) {
+        sine.envelopes[i].setAttack(10);
+        sine.envelopes[i].setDecay(10);
+        sine.envelopes[i].setSustain(0.75);
+        sine.envelopes[i].setRelease(1000);
+        
+        square.envelopes[i].setAttack(10);
+        square.envelopes[i].setDecay(10);
+        square.envelopes[i].setSustain(0.75);
+        square.envelopes[i].setRelease(1000);
+        
+        saw.envelopes[i].setAttack(10);
+        saw.envelopes[i].setDecay(10);
+        saw.envelopes[i].setSustain(0.75);
+        saw.envelopes[i].setRelease(1000);
+        
+        triangle.envelopes[i].setAttack(10);
+        triangle.envelopes[i].setDecay(10);
+        triangle.envelopes[i].setSustain(0.75);
+        triangle.envelopes[i].setRelease(1000);
+    }
+}
+
 function add(a, b) {
     return a + b;
 }
@@ -263,7 +289,7 @@ function keyTyped() {
 }
 
 //maybe if it's just the dipslay that takes the size arguments for drawing?
-//BUT THE DISPLAY IS INFLUENCING EVERYTHING THAT IS HAPPENING
+//but the position of certain objects on the screen, such as the dial's pointer, influence certain aspects of the program
 function windowResized() {
     margin = height / 20;
     
@@ -317,24 +343,4 @@ function button3CB() {
     } else {
         isPreset4 = false;
     }
-}
-
-function fader0CB() {
-    ampSines = midiKeyboard.faders[0].value;
-    //console.log(faders[0].value);
-}
-
-function fader1CB() {
-    ampSquares = midiKeyboard.faders[1].value;
-    //console.log(faders[1].value);
-}
-
-function fader2CB() {
-    ampSaws = midiKeyboard.faders[2].value;
-    //console.log(faders[2].value);
-}
-
-function fader3CB() {
-    ampTriangles = midiKeyboard.faders[3].value;
-    //console.log(faders[3].value);
 }

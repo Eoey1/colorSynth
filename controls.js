@@ -40,7 +40,8 @@ function Controls() {
     
     this.keyPressed = function() {
         if (key === '1') {
-            midiKeyboard.presetButtons[0].press();  //sines
+            //midiKeyboard.presetButtons[0].press();  //sines
+            transient();
         }
         if (key === '2') {
             midiKeyboard.presetButtons[1].press(); //squares

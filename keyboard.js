@@ -90,7 +90,6 @@ function Keyboard(x, y) {
         push();
         for (var i = 0; i < this.sh.length; i++) {
             this.sh[i].draw();
-            this.sh[i].pressed();
         }
         pop();
     
@@ -115,16 +114,16 @@ function Keyboard(x, y) {
         pop();
     }
     
-    //amplitude mapping for the faders, commented out for now since they are causing glitching
+    //amplitude mapping for the faders
     this.amplitude = function() {
         for (var i = 0; i < this.sh.length; i++) {
             this.sh[i].mapping();
         }
         
-        ampSines = this.sh[0].faderValue;
-        ampSquares = this.sh[1].faderValue;
-        ampSaws = this.sh[2].faderValue;
-        ampTriangles = this.sh[3].faderValue;
+        sine.amps = this.sh[0].faderValue;
+        square.amps = this.sh[1].faderValue;
+        saw.amps = this.sh[2].faderValue;
+        triangle.amps = this.sh[3].faderValue;
     }
     
     this.chassis = function() {
