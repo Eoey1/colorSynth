@@ -125,7 +125,8 @@ function Generator(x, y) {
         fill(245);
         
         textSize(this.width * 0.075);
-        textFont("Condiment");
+        //textFont(noiseGenFont);
+        //textFont("Condiment");
         //text("Noise Gen", this.xPos + 40, this.yPos + 55);
         //text("Noise Gen", this.xPos + this.width - 200, this.yPos + 55);
         //text("Noise Gen", this.xPos + this.width / 8, this.yPos + this.height / 6);
@@ -140,16 +141,20 @@ function Generator(x, y) {
         this.div.style("font-size: " + str(sizeOfText));
         this.div.style("font-family: 'Condiment'");
         //this.div.style('color: white');
-        this.div.style('letter-spacing: 0.0px');
+        this.div.style('letter-spacing: 1.0px');
         
         //inset shadow effect
         //this.div.style('color: #202020');
         //this.div.style('background-color: #2d2d2d');
         //this.div.style('text-shadow: -1px -1px 1px #111, 2px 2px 1px #363636');
         
-        this.div.style('color: #505050');
-        this.div.style('background-color: #5f5f5f');
-        this.div.style('text-shadow: -1px -1px 1px #111, 2px 2px 1px #696969');
+//        this.div.style('color: #505050');
+//        this.div.style('background-color: #5f5f5f');
+//        this.div.style('text-shadow: -1px -1px 1px #111, 2px 2px 1px #696969');
+        
+        this.div.style('color: #ebebeb');
+        //this.div.style('background-color: #5f5f5f');
+        //this.div.style('text-shadow: -1px -1px 1px #111, 2px 2px 1px #696969');
         
         //this.div.style('position: absolute');
         //this.div.style(font-family: 'Comfortaa');

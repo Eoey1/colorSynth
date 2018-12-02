@@ -302,7 +302,7 @@ function Keyboard(x, y) {
                         
                         for (var j = 0; j < sequencer.cycleLength; j++) { // this loop lets you adjust the sequencer values from the keyboard
                             if (sequencer.isActive[j] == true) {
-                                    sequencer.values[j] = this.values[i] + 1; 
+                                    //sequencer.values[j] = this.values[i] + 1; 
                             }
                         }  
                     }
@@ -396,7 +396,7 @@ function Keyboard(x, y) {
                         //change sequencer value if note is pressed
                         for (var j = 0; j < sequencer.cycleLength; j++) { // this loop lets you adjust the sequencer values from the keyboard
                             if (sequencer.isActive[j] == true) {
-                                    sequencer.values[j] = this.values[i] + 1; 
+                                    //sequencer.values[j] = this.values[i] + 1; 
                             }
                         }    
                         

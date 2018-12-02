@@ -49,7 +49,7 @@ function Sequencer(x, y) {
         this.values.push(0);
     }
     
-    this.dflat = [1, 2, 4, 6, 7, 9, 11, 13];
+    //this.dflat = [1, 2, 4, 6, 7, 9, 11, 13];
     
     // variables for the lights
     this.h = [193, 135, 60, 165, 310];
@@ -153,6 +153,7 @@ function Sequencer(x, y) {
             // this draws the currently selected note to each display screen
             noStroke();
             textFont('Orbitron');
+            //textFont(sequencerFont);
             textSize(this.displayHeight - this.displayHeight / 5);
             text(this.letters[this.values[i]], this.displayPos.x + this.displayWidth / 10 + i * this.spacing, this.displayPos.y + this.displayHeight * 4 / 5);
         }
@@ -277,6 +278,17 @@ function Sequencer(x, y) {
             this.reset[0] = false;
 
             if (this.set[0] == false) {
+                
+                this.isLit[1] = false;
+                this.isLit[2] = false;
+                this.isLit[3] = false;
+                this.isLit[4] = false;
+
+                this.reset[1] = true;
+                this.reset[2] = true;
+                this.reset[3] = true;
+                this.reset[4] = true;
+                
                 this.values = [1, 6, 8, 9, 2, 13, 8, 0];
                 this.slider.smoothedX = this.slider.x + this.slider.lineWidth / 2;
 
@@ -322,15 +334,33 @@ function Sequencer(x, y) {
                 
         if (this.isLit[1]) {
             this.reset[1] = false;
+            
+            if (this.playhead % 16 < 8) {
+                this.values = [1, 6, 8, 9, 1, 6, 8, 9];
+            } else if (this.playhead % 16 >= 8) {
+                this.values = [2, 6, 8, 9, 4, 11, 9, 8];
+            } else if (this.playhead % 16 == 0) {
+                onePoles.envelopes[7].release();
+            }
 
             if (this.set[1] == false) {
-                if (this.playhead % 16 < 8) {
-                    this.values = [1, 6, 8, 9, 1, 6, 8, 9];
-                } else if (this.playhead % 16 >= 8) {
-                    this.values = [2, 6, 8, 9, 4, 11, 9, 8];
-                } else if (this.playhead % 16 == 0) {
-                    onePoles.envelopes[7].release();
-                }
+                this.isLit[0] = false;
+                this.isLit[2] = false;
+                this.isLit[3] = false;
+                this.isLit[4] = false;
+
+                this.reset[0] = true;
+                this.reset[2] = true;
+                this.reset[3] = true;
+                this.reset[4] = true;
+                
+//                if (this.playhead % 16 < 8) {
+//                    this.values = [1, 6, 8, 9, 1, 6, 8, 9];
+//                } else if (this.playhead % 16 >= 8) {
+//                    this.values = [2, 6, 8, 9, 4, 11, 9, 8];
+//                } else if (this.playhead % 16 == 0) {
+//                    onePoles.envelopes[7].release();
+//                }
                 
                 midiKeyboard.presetButtons[2].isActive = true;
                 button2CB();
@@ -342,9 +372,11 @@ function Sequencer(x, y) {
                 }
 
                 //this was set at this.set[0] = true and achieved desired results...
-                //this.set[1] = true;
+                this.set[1] = true;
                 
                 //commenting this out means the changing displays work but you won't be able to edit this sequence!
+                //commenting out also removes logic for turning different buttons on and off depending on which sequence is playing
+                //since you don't actually need the set / reset logic to enable editing here as it's not really possible to edit when the values change every time you complete the cycle, you can move the playhead code out of the conditional
             }  
         }
         
@@ -367,20 +399,92 @@ function Sequencer(x, y) {
                 this.reset[1] = true;    
             }      
         }
+        
+        if (this.isLit[2]) {
+            this.reset[2] = false;
+
+            if (this.set[2] == false) {
+                this.isLit[0] = false;
+                this.isLit[1] = false;
+                this.isLit[3] = false;
+                this.isLit[4] = false;
+
+                this.reset[0] = true;
+                this.reset[1] = true;
+                this.reset[3] = true;
+                this.reset[4] = true;
+                
+                //set up an array of notes corresponding to a mode
+                this.dflat = [1, 2, 4, 6, 7, 9, 11, 0];
+                
+                //shuffle these in to an order where no note is repeated
+                this.values = shuffle(this.dflat);
+                this.slider.smoothedX = this.slider.x + this.slider.lineWidth * 2 / 3;
+
+                //midiKeyboard.presetButtons[0].isActive = true;
+                //button0CB();
+
+                for (var i = 0; i < this.values.length; i++) {
+                    if (this.values[i] > 0) {
+                        this.isActive[i] = true;
+                    } 
+                }
+
+                this.set[2] = true;
+            }  
+        } else if (!this.isLit[2]) {
+            this.set[2] = false;
+            //midiKeyboard.presetButtons[0].isActive = false;
+
+            if (this.reset[2] == false) {
+                //this.values = [0, 0, 0, 0, 0, 0, 0, 0];
+                this.slider.smoothedX = this.slider.x;
+                
+                // reset each step of the sequence to 0
+                for (var i = 0; i < this.values.length; i++) {
+                    this.values[i] = 0;    
+                }
+                
+                // release all onepole envelopes
+                for (var i = 0; i <  onePoles.envelopes.length; i++) {
+                    onePoles.envelopes[i].release();
+                }
+
+                midiKeyboard.presetButtons[0].isActive = false;
+                //midiKeyboard.presetButtons[0].press();
+                button0CB();
+
+                this.reset[2] = true;    
+            }      
+        }
                 
         // random sequence
         if (this.isLit[3]) {
             this.reset[3] = false;
 
             if (this.set[3] == false) {
+                
+                this.isLit[0] = false;
+                this.isLit[1] = false;
+                this.isLit[2] = false;
+                this.isLit[4] = false;
+
+                this.reset[0] = true;
+                this.reset[1] = true;
+                this.reset[2] = true;
+                this.reset[4] = true;
+                
                 for (var i = 0; i < this.values.length; i++) {
                     //this.r1 = random(0, this.dflat.length - i);
+                    
                     this.r1 = random(0, this.values.length + 1 - i);
                     this.r1 = round(this.r1);
                     console.log(this.r1);
                     //console.log(this.values.length);
+                    
                     this.values[i] = this.dflat[this.r1];    
                     this.isActive[i] = true;
+                    
                     console.log(this.r1);
                     //this.dflat.splice(1, 1);
                     //this.dflat.splice(1, this.r1);
@@ -396,7 +500,7 @@ function Sequencer(x, y) {
             }
         } else if (!this.isLit[3]) {
             this.set[3] = false;
-            this.dflat = [1, 2, 4, 6, 7, 9, 11, 13];
+            //this.dflat = [1, 2, 4, 6, 7, 9, 11, 13];
 
             if (this.reset[3] == false) {
                 for (var i = 0; i < this.values.length; i++) {
@@ -418,6 +522,16 @@ function Sequencer(x, y) {
             this.reset[4] = false;
 
             if (this.set[4] == false) {
+                this.isLit[0] = false;
+                this.isLit[1] = false;
+                this.isLit[2] = false;
+                this.isLit[3] = false;
+
+                this.reset[0] = true;
+                this.reset[1] = true;
+                this.reset[2] = true;
+                this.reset[3] = true;
+                
                 for (var i = 0; i < this.values.length; i++) {
                     //var bflat = [0, 1, 2, 4, 6, 7, 9, 11, 13];
                     var r1 = random(0, 13);
@@ -616,7 +730,7 @@ function Sequencer(x, y) {
                     onePoles.envelopes[this.values[0] - 1].release(); //release the previous envelope
                 }
                 if (this.isActive[1] && this.values[1] > 0) {
-                    onePoles.envelopes[5].trigger(); //trigger the next one
+                    onePoles.envelopes[this.values[1] - 1].trigger(); //trigger the next one
                 }
                 break;
             case 2:

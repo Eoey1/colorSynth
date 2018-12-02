@@ -43,9 +43,15 @@ var sequencerPoles = [];
 var timer = new maximJs.maxiOsc(); 
 
 var canvas;
+var isShuffled = false;
+
+var myFont, sequencerFont, noiseGenFont, highPassFont;
 
 function preload() {
     myFont = loadFont('assets/digital-7.ttf');
+//    sequencerFont = loadFont('assets/Orbitron-Regular.ttf');
+//    noiseGenFont = loadFont('assets/Condiment-Regular.ttf');
+//    highPassFont = loadFont('assets/')
 }
 
 function setup() {
@@ -143,6 +149,13 @@ function draw() {
     push();
     sequencer.draw();
     pop();
+    
+    var shuffled = shuffle([1, 2, 3, 4, 5]);
+    if (!isShuffled) {
+        console.log(shuffled);
+        isShuffled = true;
+    }
+    
     
 }
 
@@ -255,6 +268,22 @@ function add(a, b) {
     return a + b;
 }
 
+function shuffle(array) {
+  var copy = [], n = array.length, i;
+
+  // While there remain elements to shuffle…
+  while (n) {
+
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * n--);
+
+    // And move it to the new array.
+    copy.push(array.splice(i, 1)[0]);
+  }
+
+  return copy;
+}
+
 function mousePressed() {
     for (b in midiKeyboard.presetButtons) {
         if (midiKeyboard.presetButtons[b].isInside(mouseX, mouseY)) {
@@ -300,13 +329,43 @@ function windowResized() {
     
     oscilloscope = new Oscilloscope();
     
-    noiseGen.div.remove();
-    noiseGen = new Generator(margin, height / 2 + margin);
+    //noiseGen.div.remove();
+    //noiseGen = new Generator(margin, height / 2 + margin);
     
-    sequencer = new Sequencer(width / 2 - margin, height / 2 + height / 15);
     
-    dial.div.remove();
-    dial = new Dial(width / 2 + margin, height / 5 + margin, height / 12);
+    //resize noiseGen position
+    noiseGen.xPos = margin;
+    noiseGen.yPos = height / 2 + margin;
+    
+    //noiseGen dimensions
+    noiseGen.width = width * 5 / 12;
+    noiseGen.height = noiseGen.width / 2;
+    
+    //resize noiseGen slider
+    noiseGen.slider.h = noiseGen.height * 2 / 13; 
+    noiseGen.slider.w = noiseGen.slider.h / 2; 
+    noiseGen.slider.x = noiseGen.xPos + noiseGen.width / 10;
+    noiseGen.slider.y = noiseGen.yPos + noiseGen.height * 19 / 48;
+    noiseGen.slider.lineWidth = noiseGen.width * 7 / 24;
+    noiseGen.slider.sliderX = noiseGen.slider.x - noiseGen.slider.w / 2;
+    noiseGen.slider.sliderY = noiseGen.slider.y - noiseGen.slider.h / 2;
+    noiseGen.slider.sX = noiseGen.slider.x - noiseGen.slider.w / 2;
+    noiseGen.smoothedX = this.x - this.w / 2; 
+    
+    //resize noiseGen dial
+    noiseGen.dial.centreX = noiseGen.xPos + noiseGen.width * 79 / 320;
+    noiseGen.dial.centreY = noiseGen.yPos + noiseGen.height - noiseGen.height / 4;
+    noiseGen.dial.radius = noiseGen.height / 7;
+        
+    //sequencer = new Sequencer(width / 2 - margin, height / 2 + height / 15);
+    sequencer.xPos = width / 2 - margin;
+    sequencer.yPos = height / 2 + height / 15;
+    
+//    dial.div.remove();
+//    dial = new Dial(width / 2 + margin, height / 5 + margin, height / 12);
+    dial.centreX = width / 2 + margin;
+    dial.centreY = height / 5 + margin;
+    dial.radius = height / 12;
     
 }
 
