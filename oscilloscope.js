@@ -1,7 +1,7 @@
-function Oscilloscope() {    
+function Oscilloscope(x, y) {    
     //dimensions 
-    this.x = width - width / 3;
-    this.y = height / 10;
+    this.x = x;
+    this.y = y;
     this.screenWidth = width / 4;
     this.screenHeight = width / 5;
     
@@ -11,7 +11,7 @@ function Oscilloscope() {
     //this.screenWidth = width * 9 / 40;
     //this.screenHeight = width * 7 / 40;
     
-    this.waveHeight = 500;
+    this.waveHeight = this.screenHeight / 2;
     this.sigBufs = new Array(512);
     
     this.display = function() {

@@ -249,11 +249,7 @@ function Keyboard(x, y) {
 
             this.spacing = 45;
             this.r = 2;
-
-            push();
-
-            noStroke();
-
+        
             this.a = onePoles.alphavalues.slice();
 
             this.a.splice(1, 1);
@@ -262,13 +258,16 @@ function Keyboard(x, y) {
             this.a.splice(5, 1);
             this.a.splice(6, 1);
         
+        push();
+        
             for (var i = 0; i < 8; i++) {
                 //maps the position of the high pass filter from 0 to the maximum lightness value of each color
                 this.level = map(dial.a, 225, -45, 0, (100 - this.colours[2][i]));
                 
                 //this is then added to each color so that the highest value of the dial will produce 100 on the lightness scale
                 fill(this.colours[0][i], this.colours[1][i], this.colours[2][i] + this.level, this.a[i]);
-
+                noStroke();
+                
                 beginShape();
                 vertex(this.x + i * this.spacing, this.y);
                 vertex(this.x + this.w + i * this.spacing, this.y);
@@ -508,9 +507,6 @@ function Keyboard(x, y) {
 
             this.r = 1;
 
-            push();
-
-            noStroke();
             this.a = onePoles.alphavalues.slice();
 
             this.a.splice(0, 1);
@@ -520,38 +516,40 @@ function Keyboard(x, y) {
             this.a.splice(3, 1);
             this.a.splice(4, 1);
             this.a.splice(6, 1);
+        
+            push();
+                for (var i = 0; i < 2; i++) {
+                    this.level = map(dial.a, 225, -45, 0, this.accidentals[2][i]);
 
-            for (var i = 0; i < 2; i++) {
-                this.level = map(dial.a, 225, -45, 0, this.accidentals[2][i]);
-                fill(this.accidentals[0][i], this.accidentals[1][i], this.accidentals[2][i] - this.level, this.a[i]);
+                    fill(this.accidentals[0][i], this.accidentals[1][i], this.accidentals[2][i] - this.level, this.a[i]);
+                    noStroke();
 
-                beginShape();
-                vertex(this.x + i * this.spacing, this.y);
-                vertex(this.x + this.w + i * this.spacing, this.y);
-                vertex(this.x + this.w + i * this.spacing, this.y + this.h - this.r);
-                quadraticVertex(this.x + this.w + i * this.spacing, this.y + this.h, this.x + this.w - this.r + i * this.spacing, this.y + this.h);
-                vertex(this.x + this.r + i * this.spacing, this.y + this.h);
-                quadraticVertex(this.x + i * this.spacing, this.y + this.h, this.x + i * this.spacing, this.y + this.h - this.r);
-                endShape(CLOSE);
-            }
+                    beginShape();
+                    vertex(this.x + i * this.spacing, this.y);
+                    vertex(this.x + this.w + i * this.spacing, this.y);
+                    vertex(this.x + this.w + i * this.spacing, this.y + this.h - this.r);
+                    quadraticVertex(this.x + this.w + i * this.spacing, this.y + this.h, this.x + this.w - this.r + i * this.spacing, this.y + this.h);
+                    vertex(this.x + this.r + i * this.spacing, this.y + this.h);
+                    quadraticVertex(this.x + i * this.spacing, this.y + this.h, this.x + i * this.spacing, this.y + this.h - this.r);
+                    endShape(CLOSE);
+                }
 
 
-            this.x = this.xPos + 195 + this.offset;
+                this.x = this.xPos + 195 + this.offset;
 
-            for (var i = 0; i < 3; i++) {
-                this.level = map(dial.a, 225, -45, 0, this.accidentals[2][i + 2]);
-                fill(this.accidentals[0][i + 2], this.accidentals[1][i + 2], this.accidentals[2][i + 2] - this.level, this.a[i + 2]);
+                for (var i = 0; i < 3; i++) {
+                    this.level = map(dial.a, 225, -45, 0, this.accidentals[2][i + 2]);
+                    fill(this.accidentals[0][i + 2], this.accidentals[1][i + 2], this.accidentals[2][i + 2] - this.level, this.a[i + 2]);
 
-                beginShape();
-                vertex(this.x + i * this.spacing, this.y);
-                vertex(this.x + this.w + i * this.spacing, this.y);
-                vertex(this.x + this.w + i * this.spacing, this.y + this.h - this.r);
-                quadraticVertex(this.x + this.w + i * this.spacing, this.y + this.h, this.x + this.w - this.r + i * this.spacing, this.y + this.h);
-                vertex(this.x + this.r + i * this.spacing, this.y + this.h);
-                quadraticVertex(this.x + i * this.spacing, this.y + this.h, this.x + i * this.spacing, this.y + this.h - this.r);
-                endShape(CLOSE);
-            }
-
+                    beginShape();
+                    vertex(this.x + i * this.spacing, this.y);
+                    vertex(this.x + this.w + i * this.spacing, this.y);
+                    vertex(this.x + this.w + i * this.spacing, this.y + this.h - this.r);
+                    quadraticVertex(this.x + this.w + i * this.spacing, this.y + this.h, this.x + this.w - this.r + i * this.spacing, this.y + this.h);
+                    vertex(this.x + this.r + i * this.spacing, this.y + this.h);
+                    quadraticVertex(this.x + i * this.spacing, this.y + this.h, this.x + i * this.spacing, this.y + this.h - this.r);
+                    endShape(CLOSE);
+                }
             pop();
         pop();
     }

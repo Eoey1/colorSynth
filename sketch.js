@@ -39,7 +39,6 @@ var panLevel = 0.5;
 var panValue = 0.5;
 
 var sequencer;
-var sequencerPoles = [];
 var timer = new maximJs.maxiOsc(); 
 
 var canvas;
@@ -49,9 +48,9 @@ var myFont, sequencerFont, noiseGenFont, highPassFont;
 
 function preload() {
     myFont = loadFont('assets/digital-7.ttf');
-//    sequencerFont = loadFont('assets/Orbitron-Regular.ttf');
-//    noiseGenFont = loadFont('assets/Condiment-Regular.ttf');
-//    highPassFont = loadFont('assets/')
+    sequencerFont = loadFont('assets/Orbitron-Regular.ttf');
+    noiseGenFont = loadFont('assets/Condiment-Regular.ttf');
+    highPassFont = loadFont('assets/Comfortaa-Light.ttf');
 }
 
 function setup() {
@@ -69,8 +68,7 @@ function setup() {
     //why is keyboard setup last?
     //midiKeyboard = new Keyboard(margin, margin);
     
-    oscilloscope = new Oscilloscope();
-    //oscilloscope = new Oscilloscope(width - width / 3, height / 6);
+    oscilloscope = new Oscilloscope(width - width / 3, height / 10);
     
     noiseGen = new Generator(margin, height / 2 + margin);
     
@@ -89,7 +87,6 @@ function setup() {
     isPreset1 = isPreset2 = isPreset3 = isPreset4 = false;
     
     onePoles = new Poles();
-    sequencerPoles;
     
     for (var i = 0; i < 4; i++) {
         notes.push(new Array(12));
@@ -114,7 +111,7 @@ function draw() {
     controls.keyTyped();
     
     //this displays the colours triggered by the one poles 
-    onePoles.display();   
+    onePoles.display();  
     
     //black notes
     midiKeyboard.pressedFirst();
@@ -122,6 +119,7 @@ function draw() {
     //white notes
     midiKeyboard.pressed();
     
+    //placed here so you can increment rapidly through the values for panning
     controls.arrowKeys();
     
     /* this idea is putting the sequence for the onepoles in a separate timer that runs at the speed of the draw loop
@@ -131,7 +129,7 @@ function draw() {
     
     push();
     midiKeyboard.display();
-    pop();
+    pop(); 
     
     //highpass
     push();
@@ -327,7 +325,11 @@ function windowResized() {
     canvas.parent('sketch-div');
     canvas.style('z-index', '-1');
     
-    oscilloscope = new Oscilloscope();
+    oscilloscope.x = width - width / 3;
+    oscilloscope.y = height / 10;
+    oscilloscope.screenWidth = width / 4;
+    oscilloscope.screenHeight = width / 5;
+    oscilloscope.waveHeight = oscilloscope.screenHeight / 2;
     
     //noiseGen.div.remove();
     //noiseGen = new Generator(margin, height / 2 + margin);
@@ -349,7 +351,7 @@ function windowResized() {
     noiseGen.slider.sliderX = noiseGen.slider.x - noiseGen.slider.w / 2;
     noiseGen.slider.sliderY = noiseGen.slider.y - noiseGen.slider.h / 2;
     noiseGen.slider.sX = noiseGen.slider.x - noiseGen.slider.w / 2;
-    noiseGen.smoothedX = this.x - this.w / 2; 
+    noiseGen.slider.smoothedX = noiseGen.slider.x - noiseGen.slider.w / 2; 
     
     //resize noiseGen dial
     noiseGen.dial.centreX = noiseGen.xPos + noiseGen.width * 79 / 320;
