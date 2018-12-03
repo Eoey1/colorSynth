@@ -2,9 +2,6 @@ function Controls() {
     this.keys = [65, 87, 83, 69, 68, 70, 84, 71, 89, 72, 85, 74, 75];
     this.letters = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j', 'k'];
     
-    this.envelope = new maximEx.env();
-    
-    
     this.midiKeys = function() {
         for (var i = 0; i < this.keys.length; i++) {
             if (keyIsDown(this.keys[i])) {
@@ -40,8 +37,7 @@ function Controls() {
     
     this.keyPressed = function() {
         if (key === '1') {
-            //midiKeyboard.presetButtons[0].press();  //sines
-            transient();
+            midiKeyboard.presetButtons[0].press();  //sines
         }
         if (key === '2') {
             midiKeyboard.presetButtons[1].press(); //squares
@@ -54,8 +50,7 @@ function Controls() {
         }
         
         if (key === '5') {
-            //onePoles.alphavalues[1] *= this.envelope.damp(0.1, 0.5);
-            this.envelope.trigger();
+            transient();
         }
         
         // turns the delay on or off

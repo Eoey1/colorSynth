@@ -120,10 +120,11 @@ function Keyboard(x, y) {
             this.sh[i].mapping();
         }
         
-        sine.amps = this.sh[0].faderValue;
-        square.amps = this.sh[1].faderValue;
-        saw.amps = this.sh[2].faderValue;
-        triangle.amps = this.sh[3].faderValue;
+        //this output sums to 0.735
+        sine.amps = this.sh[0].faderValue * 0.25;
+        square.amps = this.sh[1].faderValue * 0.035;
+        saw.amps = this.sh[2].faderValue * 0.05;
+        triangle.amps = this.sh[3].faderValue * 0.4;
     }
     
     this.chassis = function() {
@@ -301,8 +302,8 @@ function Keyboard(x, y) {
                         this.isTriggered[this.values[i]] = true;
                         
                         for (var j = 0; j < sequencer.cycleLength; j++) { // this loop lets you adjust the sequencer values from the keyboard
-                            if (sequencer.isActive[j] == true) {
-                                    //sequencer.values[j] = this.values[i] + 1; 
+                            if (sequencer.isSelected[j] == true) {
+                                sequencer.values[j] = this.values[i] + 1; 
                             }
                         }  
                     }
@@ -330,8 +331,8 @@ function Keyboard(x, y) {
                         this.isTriggered[this.values[i + 2]] = true;
                         
                         for (var j = 0; j < sequencer.cycleLength; j++) { // this loop lets you adjust the sequencer values from the keyboard
-                            if (sequencer.isActive[j] == true) {
-                                    sequencer.values[j] = this.values[i + 2] + 1; 
+                            if (sequencer.isSelected[j] == true) {
+                                sequencer.values[j] = this.values[i + 2] + 1; 
                             }
                         }  
                     }
@@ -395,8 +396,8 @@ function Keyboard(x, y) {
                         
                         //change sequencer value if note is pressed
                         for (var j = 0; j < sequencer.cycleLength; j++) { // this loop lets you adjust the sequencer values from the keyboard
-                            if (sequencer.isActive[j] == true) {
-                                    //sequencer.values[j] = this.values[i] + 1; 
+                            if (sequencer.isSelected[j] == true) {
+                                sequencer.values[j] = this.values[i] + 1; 
                             }
                         }    
                         

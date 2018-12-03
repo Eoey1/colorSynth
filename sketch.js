@@ -215,8 +215,8 @@ function audioLoop() {
     }
     
     // need to adjust levels separately so naturally louder waveforms start at the same level as naturally quieter waveforms
-    var synthOutput = sig1 + sig2 + sig3 + sig4 * 0.5;
-    var noiseOutput = sig5 * 0.25;
+    var synthOutput = sig1 + sig2 + sig3 + sig4; //these sum to 0.735
+    var noiseOutput = sig5 * 0.25; //kind of works perfectly since adding the soundwaves to the noise gives you just shy of 1
 
     //delay
     var fx = delay.dl(synthOutput, 44100 * time, regen);
@@ -331,7 +331,6 @@ function windowResized() {
     
     //noiseGen.div.remove();
     //noiseGen = new Generator(margin, height / 2 + margin);
-    
     
     //resize noiseGen position
     noiseGen.xPos = margin;

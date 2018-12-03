@@ -39,6 +39,7 @@ function Sequencer(x, y) {
     this.isSelected = []
     this.isActive = [];
     this.isPressed = [];
+    this.keyboardIsPressed = false;
     
     this.tempo = 4;
 
@@ -123,7 +124,7 @@ function Sequencer(x, y) {
                         this.isActive[j] = false; 
                         this.isPressed[j] = false;
                     }
-                }
+                } 
             }
  
             // this draws the little box around the number over each step of the sequence
@@ -209,14 +210,27 @@ function Sequencer(x, y) {
     }
     
     // this code works out whether the sequencer steps have been pressed or the presets triggered
-    this.pressed = function() {        
+    this.pressed = function() {  
+        //checks whether a key has been pressed or not
+        if (mouseX >= midiKeyboard.xPos + 28 && mouseX <= midiKeyboard.xPos + 391 && mouseY >= midiKeyboard.yPos + 55 && mouseY <= midiKeyboard.yPos + 238) {
+            this.keyboardIsPressed = true;
+        } else {
+            this.keyboardIsPressed = false;
+        }
+        
         for (var i = 0; i < this.cycleLength; i++) {
-            if (mouseX >= this.displayPos.x + i * this.spacing && mouseX <= this.displayPos.x + i * this.spacing + this.displayWidth && mouseY >= this.displayPos.y && mouseY <= this.displayPos.y + this.displayHeight) {
+            if (mouseX >= this.displayPos.x + i * this.spacing && 
+                mouseX <= this.displayPos.x + i * this.spacing + this.displayWidth && 
+                mouseY >= this.displayPos.y && 
+                mouseY <= this.displayPos.y + this.displayHeight) {
+                //checks whether a step of the seuqncer has been clicked
                 this.isPressed[i] = true; 
             } else {
-                this.isSelected[i] = false;
-            }    
-        }
+                if (this.keyboardIsPressed == false) {
+                    this.isSelected[i] = false;
+                }
+            }
+        }    
         
         // need to create a condtion for if the x parameters are set and a condition for if the y parameters are set to help simplify things
     
