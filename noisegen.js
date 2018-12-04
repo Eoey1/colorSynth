@@ -153,7 +153,9 @@ function Generator(x, y) {
         this.slider.sliderX = this.slider.x - this.slider.w / 2;
         this.slider.sliderY = this.slider.y - this.slider.h / 2;
         this.slider.sX = this.slider.x - this.slider.w / 2;
-        this.slider.smoothedX = this.slider.x - this.slider.w / 2; 
+        //this.slider.smoothedX = this.slider.x - this.slider.w / 2;
+        this.slider.smoothed = this.slider.onePole.process(this.slider.sliderX); // need to constrain the onePole to stop it jumping backwards
+        this.slider.smoothedX = constrain(this.slider.smoothed, this.slider.x - this.slider.w / 2, this.slider.x + this.slider.lineWidth - this.slider.w / 2); 
 
         //resize dial
         this.dial.centreX = this.xPos + this.width * 79 / 320;

@@ -285,7 +285,8 @@ function mousePressed() {
     }
     
     dial.pressed();
-    sequencer.pressed();    
+    
+    sequencer.pressed();  
     noiseGen.dial.pressed();
 }
 

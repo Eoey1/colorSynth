@@ -315,6 +315,9 @@ function Sequencer(x, y) {
                         this.isActive[i] = true;
                     } 
                 }
+                
+                //set fader level
+                midiKeyboard.sh[0].sliderY = midiKeyboard.sh[0].y - midiKeyboard.sh[0].lineLength * 3 / 5;
 
                 this.set[0] = true;
             }  
@@ -339,8 +342,10 @@ function Sequencer(x, y) {
                 }
 
                 midiKeyboard.presetButtons[0].isActive = false;
-                //midiKeyboard.presetButtons[0].press();
                 button0CB();
+                
+                //reset fader level
+                midiKeyboard.sh[0].sliderY = midiKeyboard.sh[0].y - midiKeyboard.sh[0].h / 2;
 
                 this.reset[0] = true;    
             }      
@@ -348,6 +353,10 @@ function Sequencer(x, y) {
                 
         if (this.isLit[1]) {
             this.reset[1] = false;
+            
+            /* since you don't actually need the set / reset logic to enable editing here 
+               as it's not really possible to edit when the values change every time you complete the cycle, 
+               you can move the playhead code out of the conditional */
             
             if (this.playhead % 16 < 8) {
                 this.values = [1, 6, 8, 9, 1, 6, 8, 9];
@@ -368,14 +377,6 @@ function Sequencer(x, y) {
                 this.reset[3] = true;
                 this.reset[4] = true;
                 
-//                if (this.playhead % 16 < 8) {
-//                    this.values = [1, 6, 8, 9, 1, 6, 8, 9];
-//                } else if (this.playhead % 16 >= 8) {
-//                    this.values = [2, 6, 8, 9, 4, 11, 9, 8];
-//                } else if (this.playhead % 16 == 0) {
-//                    onePoles.envelopes[7].release();
-//                }
-                
                 midiKeyboard.presetButtons[2].isActive = true;
                 button2CB();
 
@@ -385,12 +386,7 @@ function Sequencer(x, y) {
                     } 
                 }
 
-                //this was set at this.set[0] = true and achieved desired results...
-                this.set[1] = true;
-                
-                //commenting this out means the changing displays work but you won't be able to edit this sequence!
-                //commenting out also removes logic for turning different buttons on and off depending on which sequence is playing
-                //since you don't actually need the set / reset logic to enable editing here as it's not really possible to edit when the values change every time you complete the cycle, you can move the playhead code out of the conditional
+                this.set[1] = true;    
             }  
         }
         
@@ -514,7 +510,6 @@ function Sequencer(x, y) {
             }
         } else if (!this.isLit[3]) {
             this.set[3] = false;
-            //this.dflat = [1, 2, 4, 6, 7, 9, 11, 13];
 
             if (this.reset[3] == false) {
                 for (var i = 0; i < this.values.length; i++) {
@@ -546,24 +541,30 @@ function Sequencer(x, y) {
                 this.reset[2] = true;
                 this.reset[3] = true;
                 
+                this.values = [9, 4, 9, 11, 2, 6, 4, 13];
+                this.slider.smoothedX = this.slider.x + this.slider.lineWidth * 4 / 5;
+                
+                transient();
+                
+                midiKeyboard.presetButtons[0].isActive = true;
+                button0CB();
+                
                 for (var i = 0; i < this.values.length; i++) {
-                    //var bflat = [0, 1, 2, 4, 6, 7, 9, 11, 13];
-                    var r1 = random(0, 13);
-                    r1 = round(r1);
-                    //var r1 = random(bflat);
-                    this.values[i] = r1;    
-                    this.isActive[i] = true;
+                    if (this.values[i] > 0) {
+                        this.isActive[i] = true;
+                    } 
                 }
-
-                var r2 = random(0, 3);
-                r2 = round(r2);
-
-                //midiKeyboard.presetButtons[0].isActive = true;
-                //button0CB();
-                //button1CB();
-                //button2CB();
-                //button3CB();
-
+                
+                isDelay = false;
+                
+                if (!isDelay) {
+                    dryMix = 1;
+                } else if (isDelay) {
+                    dryMix = 0.5;
+                } 
+                
+                midiKeyboard.sh[0].sliderY = midiKeyboard.sh[0].y - midiKeyboard.sh[0].lineLength * 3 / 4;
+            
                 this.set[4] = true;
             }
         } else if (!this.isLit[4]) {
@@ -578,42 +579,19 @@ function Sequencer(x, y) {
                 for (var i = 0; i <  onePoles.envelopes.length; i++) {
                     onePoles.envelopes[i].release();
                 }
-
-                //midiKeyboard.presetButtons[0].isActive = false;
                 
-                // possible solution for randomising which waveform is selected
+                //set the tempo back to 0
+                this.slider.smoothedX = this.slider.x;
                 
-//                        midiKeyboard.presetButtons[1].isActive = false;
-//                        midiKeyboard.presetButtons[2].isActive = false;
-//                        midiKeyboard.presetButtons[3].isActive = false;
-//                        button0CB();
-//                        button1CB();
-//                        button2CB();
-//                        button3CB();
+                midiKeyboard.presetButtons[0].isActive = false;
+                button0CB();
+                
+                midiKeyboard.sh[0].sliderY = midiKeyboard.sh[0].y - midiKeyboard.sh[0].h / 2
 
                 this.reset[4] = true;    
             }      
         }
     }
-    
-    
-    // This is a 16 step version of the sequencer which uses the progression function to trigger the one poles
-    this.succession = function() {
-        if (this.isPlaying) {
-            this.currentCount = timer.phasor(this.tempo);
-
-            if (this.currentCount < 0.5 && !this.isTriggered) {
-                this.playhead = (this.playhead + 1) % 16; 
-                this.isTriggered = true;
-                this.progression();    
-            } else if (this.currentCount > 0.5) {
-                this.isTriggered = false; 
-            }
-        } else {
-            this.currentCount = 0;
-        }
-    }
-    
     
     // triggers audio envelopes
     this.cycle = function() {
@@ -622,12 +600,6 @@ function Sequencer(x, y) {
                 if (this.playhead % this.cycleLength == i) {
                     trigs[this.values[i] - 1] = 1;
                 }
-                
-                // commenting out this stops the sequencer behaviour which doesn't allow retriggering
-                
-//                } else {
-//                    trigs[this.values[i] - 1] = 0;
-//                }
             }
         }
     }
@@ -732,11 +704,13 @@ function Sequencer(x, y) {
         //resize slider dimensions
         this.slider.x = this.xPos + this.width * 3 / 18;
         this.slider.y = this.yPos + this.height * 5 / 6;
-        this.slider.lineWidth = this.width * 2 / 3;
         this.slider.h = this.height / 10;
+        this.slider.lineWidth = this.width * 2 / 3;
         this.slider.sliderX = this.slider.x;
         this.slider.sliderY = this.slider.y;
         this.slider.sX = this.slider.x;
-        this.slider.smoothedX = this.slider.x;
+        //this.slider.smoothedX = this.slider.x;
+        this.slider.smoothed = this.slider.onePole.process(this.slider.sliderX); 
+        this.slider.smoothedX = constrain(this.slider.smoothed, this.slider.x, this.slider.x + this.slider.lineWidth); 
     }
 }  

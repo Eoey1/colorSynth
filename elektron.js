@@ -1,13 +1,14 @@
 function Slider(x, y, length, height) {
-    this.h = height;
-
-    this.w = this.h / 2;
     this.x = x;
     this.y = y;
+    
+    this.h = height;
+    this.w = this.h / 2;
+    
     this.sliderX = this.x - this.w / 2;
     this.sliderY = this.y - this.h / 2;
-    this.sX = this.x - this.w / 2;
     
+    this.sX = this.x - this.w / 2;
     this.smoothedX = this.x - this.w / 2;
     
     this.r = this.h / 4;
@@ -74,7 +75,7 @@ function Slider(x, y, length, height) {
 
         push();
         strokeCap(SQUARE);
-        strokeWeight(3.5);
+        //strokeWeight(this.h / 20);
         stroke(255);
 //        line(this.sliderX, this.y, this.sliderX + this.w, this.y);
         line(this.smoothedX + this.w / 2, this.y - this.h / 2, this.smoothedX + this.w / 2, this.y + this.h / 2);

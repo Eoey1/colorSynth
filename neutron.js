@@ -34,8 +34,11 @@ function Neutron(x, y, length, height) {
                 if (mouseY >= this.sliderY - this.h / 2 && mouseY <= this.sliderY + this.h / 2) {
                     this.sX = mouseX;
                     this.sliderX = constrain(this.sX, this.x, this.x + this.lineWidth);
+                    
+                    //this won't work in mousedragged because of the onePole!
                     this.smoothed = this.onePole.process(this.sliderX); // need to constrain the onePole to stop it jumping backwards
                     this.smoothedX = constrain(this.smoothed, this.x, this.x + this.lineWidth); 
+                
                 }   
             }
         }
