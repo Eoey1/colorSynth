@@ -1,67 +1,43 @@
 function Generator(x, y) {
-    //dimensions
+    /* refer to previous versions for a list of alternative dimensions */
+    
+    //positon
     this.xPos = x;
     this.yPos = y;
     
-    // halfway between width / 3 and width /4 => width * 7 / 24
-    
-    //this.width = width * 7 / 24;
-    //this.width = width * 1 / 3;
+    //dimensions
     this.width = width * 5 / 12;
-    //this.width = width / 2;
-    
-    // height is roughly half the width
-    //this.height = 360;
     this.height = this.width / 2;
     
-    this.r = 5; // border radius level
+    //border radius level
+    this.r = 5;
     
-//    this.sliderX = this.xPos + this.width / 8;
-//    this.sliderX = this.xPos + this.width / 9;
-    
-    //this.sliderY = this.yPos + this.height * 19 / 48;
-    
-    //this.sliderLength = this.width / 4;
-    
-//    this.sliderHeight = this.height / 6;
-//    this.sliderHeight = this.height / 8;
-//    this.sliderHeight = this.height * 7 / 52;
-    
+    //slider dimensions
     this.sliderX = this.xPos + this.width / 10;
     this.sliderY = this.yPos + this.height * 19 / 48;
     this.sliderLength = this.width * 7 / 24;
-    this.sliderHeight = this.height * 2 / 13;    
+    this.sliderHeight = this.height * 2 / 13;
+    
+    //instantiate slider
     this.slider = new Slider(this.sliderX, this.sliderY, this.sliderLength, this.sliderHeight); 
     
-    // noise variables
+    //dial dimensions
+    
+    //instantiate dial
+    this.dial = new CircleDial(this.xPos + this.width * 79 / 320, this.yPos + this.height - this.height / 4, this.height / 7);
+    
+    //noise variables
     this.amp = 0;
     this.b0 = this.b1 = this.b2 = this.b3 = this.b4 = this.b5 = this.b6 = 0.0;
     this.brownSig = 0;
     this.delta = 0.1;
     
     this.sigBufs = new Array(512);
-    
-    //this.dial = new CircleDial(this.width / 3, this.height - this.height / 6, 50);
-    //this.dial = new CircleDial(this.xPos + this.width / 5, this.yPos + this.height - this.height / 4, this.height / 7);
-    
-    
-    this.dial = new CircleDial(this.xPos + this.width * 79 / 320, this.yPos + this.height - this.height / 4, this.height / 7);
-    
-    
-    //this.dial = new CircleDial(this.xPos + this.width / 4, this.yPos + this.height - this.height * 9 / 40, this.height / 7);
-    //this.dial = new CircleDial(this.xPos + this.width * 5 / 24, this.yPos + this.height - this.height * 9 / 40, this.height / 7);
-    
+
+    //text for CSS styling
     this.div = createDiv('Noise Gen');
-    //this.div.size();
     
-    
-    this.display = function() {
-        //dimensions
-//        this.xPos = height / 20;
-//        this.yPos = height / 2 + height / 20;
-//        this.width = width * 5 / 12;
-//        this.height = this.width / 2;
-        
+    this.display = function() {        
         push();
         this.chassis();
         pop();
@@ -86,7 +62,9 @@ function Generator(x, y) {
         this.screenHeight = this.height * 2 / 3;
         this.screenX = this.xPos + this.width / 2;
         this.screenY = this.yPos + this.height / 4;
-        this.r = 4; // border radius level
+        
+        //border radius level
+        this.r = 4; 
         
         noStroke();
         fill(0);
@@ -104,7 +82,8 @@ function Generator(x, y) {
     }
     
     this.chassis = function() {
-        this.r = 5; // reset border radius level
+        //reset border radius level
+        this.r = 5; 
         
         noStroke();
         fill('#5f5f5f');
@@ -121,47 +100,8 @@ function Generator(x, y) {
         quadraticVertex(this.xPos, this.yPos + this.height, this.xPos, this.yPos + this.height - this.r);
         endShape(CLOSE);
 
-        noStroke();
-        fill(245);
-        
-        textSize(this.width * 0.075);
-        //textFont(noiseGenFont);
-        //textFont("Condiment");
-        //text("Noise Gen", this.xPos + 40, this.yPos + 55);
-        //text("Noise Gen", this.xPos + this.width - 200, this.yPos + 55);
-        //text("Noise Gen", this.xPos + this.width / 8, this.yPos + this.height / 6);
-    
-        /* This was the measurement used before the div */
-        //text("Noise Gen", this.xPos + this.width / 10, this.yPos + this.height / 5);
-        
-        var sizeOfText = this.width * 0.075;
-        
-        this.div.id('noisegen');
-        //this.div.class('font-effect-emboss');
-        this.div.style("font-size: " + str(sizeOfText));
-        this.div.style("font-family: 'Condiment'");
-        //this.div.style('color: white');
-        this.div.style('letter-spacing: 1.0px');
-        
-        //inset shadow effect
-        //this.div.style('color: #202020');
-        //this.div.style('background-color: #2d2d2d');
-        //this.div.style('text-shadow: -1px -1px 1px #111, 2px 2px 1px #363636');
-        
-//        this.div.style('color: #505050');
-//        this.div.style('background-color: #5f5f5f');
-//        this.div.style('text-shadow: -1px -1px 1px #111, 2px 2px 1px #696969');
-        
-        this.div.style('color: #ebebeb');
-        //this.div.style('background-color: #5f5f5f');
-        //this.div.style('text-shadow: -1px -1px 1px #111, 2px 2px 1px #696969');
-        
-        //this.div.style('position: absolute');
-        //this.div.style(font-family: 'Comfortaa');
-        
-        //this.div.size(this.width * 0.075, 50);
-        this.div.position(this.xPos + this.width / 10, this.yPos + this.height / 15);
-        //this.div.hide();
+        //this.title();
+        this.titleCSS();
     }
     
     this.waves = function() {
@@ -182,8 +122,8 @@ function Generator(x, y) {
         noFill();   
         beginShape();
         for(var i = 0; i < 512; i++) {
+            //slight offset by a half
             vertex(this.screenX + 1 / 2 + i * this.screenWidth / 512, this.screenY + this.screenHeight / 2 + this.sigBufs[i] * this.waveHeight);
-            // slight offset by a half
         }
         endShape();
     }
@@ -191,6 +131,70 @@ function Generator(x, y) {
     this.amplitude = function() {
         this.slider.mapping();
         this.amp = this.slider.value;
+    }
+    
+    this.resize = function() {
+        var margin = height / 20;
+        
+        //shift position
+        this.xPos = margin;
+        this.yPos = height / 2 + margin;
+
+        //resize dimensions
+        this.width = width * 5 / 12;
+        this.height = this.width / 2;
+
+        //resize slider
+        this.slider.h = this.height * 2 / 13; 
+        this.slider.w = this.slider.h / 2; 
+        this.slider.x = this.xPos + this.width / 10;
+        this.slider.y = this.yPos + this.height * 19 / 48;
+        this.slider.lineWidth = this.width * 7 / 24;
+        this.slider.sliderX = this.slider.x - this.slider.w / 2;
+        this.slider.sliderY = this.slider.y - this.slider.h / 2;
+        this.slider.sX = this.slider.x - this.slider.w / 2;
+        this.slider.smoothedX = this.slider.x - this.slider.w / 2; 
+
+        //resize dial
+        this.dial.centreX = this.xPos + this.width * 79 / 320;
+        this.dial.centreY = this.yPos + this.height - this.height / 4;
+        this.dial.radius = this.height / 7;
+    }
+    
+    this.title = function() {
+        textSize(this.width * 0.075);
+        textFont(noiseGenFont);
+        textFont("Condiment");
+        
+        noStroke();
+        fill(245);
+        
+        /* This was the measurement used before the div */
+        text("Noise Gen", this.xPos + this.width / 10, this.yPos + this.height / 5);    
+    }
+    
+    this.titleCSS = function() {
+        var sizeOfText = this.width * 0.075;
+        
+        this.div.id('noisegen');
+        this.div.style("font-size: " + str(sizeOfText));
+        this.div.style("font-family: 'Condiment'");
+        this.div.style('letter-spacing: 1.0px');
+        
+        //inset shadow effect
+        this.div.style('color: #505050');
+        this.div.style('background-color: #5f5f5f');
+        this.div.style('text-shadow: -1px -1px 1px #111, 2px 2px 1px #696969');
+        
+        //dark inset shadow effect 
+        //this.div.style('color: #202020');
+        //this.div.style('background-color: #2d2d2d');
+        //this.div.style('text-shadow: -1px -1px 1px #111, 2px 2px 1px #363636');
+        
+        //off white
+        //this.div.style('color: #ebebeb');
+        
+        this.div.position(this.xPos + this.width / 10, this.yPos + this.height / 15);
     }
     
     /////////////// NOISE FUNCTIONS ////////////////////

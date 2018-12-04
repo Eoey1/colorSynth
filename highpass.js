@@ -265,4 +265,12 @@ function Dial(x, y, size) {
         //this.div.style("letter-spacing: 2.25px");
         this.div.position(this.centreX - this.radius * 1.05, this.centreY - this.radius * 1.65);    
     }
+    
+    this.resize = function() {
+        var margin = height / 20;
+        
+        this.centreX = width / 2 + margin;
+        this.centreY = height / 5 + margin;
+        this.radius = height / 12;   
+    }
 }    

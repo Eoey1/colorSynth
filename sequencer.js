@@ -268,7 +268,7 @@ function Sequencer(x, y) {
                 
                 //one pole filters
                 //this.progression();
-                this.sequence1();
+                this.sequence();
             } 
             
             else if (this.currentCount > 0.5) {
@@ -646,90 +646,6 @@ function Sequencer(x, y) {
     }
     
     this.sequence = function() {
-        if (this.playhead % 8 == 0) {
-            //release the previous envelope
-            if (this.values[7] > 0) {
-                onePoles.envelopes[this.values[7] - 1].release();
-            }
-
-            //trigger the next one
-            if (this.isActive[0] && this.values[0] > 0) {
-                onePoles.envelopes[this.values[0] - 1].trigger();
-            }
-        } else if (this.playhead % 8 == 1) {
-            //release the previous envelope
-            if (this.values[0] > 0) {
-                onePoles.envelopes[this.values[0] - 1].release();
-            }
-
-            //trigger the next one
-            if (this.isActive[1] && this.values[1] > 0) {
-                onePoles.envelopes[5].trigger();
-            }
-        } else if (this.playhead % 8 == 2) {
-            //release the previous envelope
-            if (this.values[1] > 0) {
-                onePoles.envelopes[this.values[1] - 1].release();
-            }
-
-            //trigger the next one
-            if (this.isActive[2] && this.values[2] > 0) {
-                onePoles.envelopes[this.values[2] - 1].trigger();
-            }
-        } else if (this.playhead % 8 == 3) {
-            //release the previous envelope
-            if (this.values[2] > 0) {
-                onePoles.envelopes[this.values[2] - 1].release();
-            }
-
-            //trigger the next one
-            if (this.isActive[3] && this.values[3] > 0) {
-                onePoles.envelopes[this.values[3] - 1].trigger();
-            }
-        } else if (this.playhead % 8 == 4) {
-            //release the previous envelope
-            if (this.values[3] > 0) {
-                onePoles.envelopes[this.values[3] - 1].release();
-            }
-            
-            //trigger the next one
-            if (this.isActive[4] && this.values[4] > 0) {
-                onePoles.envelopes[this.values[4] - 1].trigger();
-            }
-        } else if (this.playhead % 8 == 5) {
-            //release the previous envelope
-            if (this.values[4] > 0) {
-                onePoles.envelopes[this.values[4] - 1].release();
-            }
-            
-            //trigger the next one
-            if (this.isActive[5] && this.values[5] > 0) {
-                onePoles.envelopes[this.values[5] - 1].trigger(); 
-            }  
-        } else if (this.playhead % 8 == 6) {
-            //release the previous envelope
-            if (this.values[5] > 0) {
-                onePoles.envelopes[this.values[5] - 1].release();
-            }
-            
-            //trigger the next one
-            if (this.isActive[6] && this.values[6] > 0) {
-                onePoles.envelopes[this.values[6] - 1].trigger(); 
-            }
-        } else if (this.playhead % 8 == 7) {
-            //release the previous envelope
-            if (this.values[6] > 0) {
-                onePoles.envelopes[this.values[6] - 1].release();
-            }
-            
-            //trigger the next one
-            if (this.isActive[7] && this.values[7] > 0) {
-                onePoles.envelopes[this.values[7] - 1].trigger(); 
-            }  
-        }
-    }
-    
-    this.sequence1 = function() {
         switch (this.playhead % 8) {
             case 0:
                 if (this.values[7] > 0) {
@@ -796,5 +712,31 @@ function Sequencer(x, y) {
                 }  
                 break;
         }
+    }
+    
+    this.resize = function() {
+        var margin = height / 20;
+        
+        //shift position
+        this.xPos = width / 2 - margin;
+        this.yPos = height / 2 + height / 15;
+        
+        //resize dimensions
+        this.width = width / 2;
+        this.height = height / 3;
+        this.spacing = this.width * 2 / 17;
+        this.displayWidth = this.spacing * 3 / 4; 
+        this.displayHeight = this.displayWidth * 2 / 3;
+        this.displayPos = createVector(this.xPos + this.width / 25, this.yPos + this.height * 13 / 24);
+        
+        //resize slider dimensions
+        this.slider.x = this.xPos + this.width * 3 / 18;
+        this.slider.y = this.yPos + this.height * 5 / 6;
+        this.slider.lineWidth = this.width * 2 / 3;
+        this.slider.h = this.height / 10;
+        this.slider.sliderX = this.slider.x;
+        this.slider.sliderY = this.slider.y;
+        this.slider.sX = this.slider.x;
+        this.slider.smoothedX = this.slider.x;
     }
 }  

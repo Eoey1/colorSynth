@@ -87,4 +87,12 @@ function Oscilloscope(x, y) {
         }
         endShape();  
     }
+    
+    this.resize = function() {
+        this.x = width - width / 3;
+        this.y = height / 10;
+        this.screenWidth = width / 4;
+        this.screenHeight = width / 5;
+        this.waveHeight = this.screenHeight / 2;
+    }
 }
