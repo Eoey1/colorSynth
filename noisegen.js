@@ -35,7 +35,7 @@ function Generator(x, y) {
     this.sigBufs = new Array(512);
 
     //text for CSS styling
-    this.div = createDiv('Noise Gen');
+    this.div = createDiv(' ');
     
     this.display = function() {        
         push();
@@ -100,8 +100,8 @@ function Generator(x, y) {
         quadraticVertex(this.xPos, this.yPos + this.height, this.xPos, this.yPos + this.height - this.r);
         endShape(CLOSE);
 
-        //this.title();
-        this.titleCSS();
+        this.title();
+        //this.titleCSS();
     }
     
     this.waves = function() {
@@ -166,7 +166,7 @@ function Generator(x, y) {
     this.title = function() {
         textSize(this.width * 0.075);
         textFont(noiseGenFont);
-        textFont("Condiment");
+        //textFont('Condiment');
         
         noStroke();
         fill(245);
@@ -177,6 +177,8 @@ function Generator(x, y) {
     
     this.titleCSS = function() {
         var sizeOfText = this.width * 0.075;
+        
+        this.div.html('Noise Gen', true);
         
         this.div.id('noisegen');
         this.div.style("font-size: " + str(sizeOfText));

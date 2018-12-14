@@ -20,16 +20,25 @@ function Dial(x, y, size) {
     }
     
     this.div = createDiv("High-pass");
+    
+    this.onePole = new maximEx.onePole();
+    this.onePole.setTime(0.05, 60); //0.1 works nicely but might not even need to be that long!
 
     this.draw = function() {
         push();
         colorMode(HSB);
         
         //nice dark turquoise / teal
-        //fill(195, 75, 45);
+        fill(195, 75, 45);
+        
+        //light gray green
+        //fill(195, 50, 50);
+        
+        //dark gray
+        //fill(190, 15, 35);
         
         noStroke();
-        fill(210, 75, 45);
+        //fill(210, 75, 45);
         rect(this.centreX - this.radius * 1.45, this.centreY - this.radius * 1.85, this.radius * 2.9, this.radius * 4.5);
         pop();
         
@@ -47,15 +56,15 @@ function Dial(x, y, size) {
 
         //this makes the dial start at 225 degrees
         this.angle = atan(this.y / this.x) + PI;
-    
+        this.calculatePosition();
         this.calculateQuadrant();
         this.calculateAngle();
         this.setRange();
         this.drawPointer();
         this.drawArc();
 
-        //convert the angle to degrees
-        this.a = degrees(this.angle) % 360;
+        //convert the CONSTRAINED angle to degrees
+        this.a = degrees(this.c) % 360;
 
         //map the angle to the desired high pass level
         this.level = map(this.a, 225, -45, 10, 3000);
@@ -80,14 +89,18 @@ function Dial(x, y, size) {
         }
     }
     
-    this.calculateQuadrant = function() {
+    this.calculatePosition = function() {
         if (mouseIsPressed && this.isActive) {
             //if mouseX is greater than the center of the dial x will be a positive values
             this.x = -this.centreX + mouseX;
             
             //if mouse Y is greater than the center of the dial y will be a negative value
             this.y = this.centreY - mouseY;
-
+        }
+    }
+    
+    this.calculateQuadrant = function() {
+        if (mouseIsPressed && this.isActive) {
             if (mouseX >= this.centreX && mouseX <= this.centreX + this.radius) {
                 if (mouseY >= this.centreY - this.radius && mouseY <= this.centreY) {
                     this.quadrants[0] = true;
@@ -149,9 +162,10 @@ function Dial(x, y, size) {
     
     this.setRange = function() {
         //sets the minminum and maximum for the dial
-        this.v1 = atan(-180 / 180); //this gives -45 in degrees
-        this.v2 = atan(-180 / - 180) + PI; //this gives 225 in degrees
+        this.v1 = atan(-180 / 180); //this returns -45 in degrees
+        this.v2 = atan(-180 / - 180) + PI; //this returns 225 in degrees
         this.c = constrain(this.angle, this.v1, this.v2);    
+        this.c = this.onePole.process(this.c);
     }
     
     this.drawPointer = function() {
@@ -166,6 +180,10 @@ function Dial(x, y, size) {
         //code for a sligthly longer arrow
         //this.cX = this.centreX + (this.radius - this.radius / 2) * cos(this.angle);
         //this.cY = this.centreY - (this.radius - this.radius / 2) * sin(this.angle);    
+        
+        //code for full length needle
+        //this.cX = this.centreX + cos(this.angle);
+        //this.cY = this.centreY + sin(this.angle);    
 
         push();
         stroke(240);
@@ -195,7 +213,6 @@ function Dial(x, y, size) {
         stroke(200, 100, 75);
         //stroke(200, 100, 100);
         arc(this.centreX, this.centreY, this.radius * 2.1, this.radius * 2.1, 3 * PI / 4 - 0.0000001, - this.c);
-        
         pop();
     }
     

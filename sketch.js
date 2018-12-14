@@ -254,8 +254,46 @@ function transient() {
     }
 }
 
+function transient1() {
+    for (var i = 0; i < 13; i++) {
+        sine.envelopes[i].setAttack(attack);
+        sine.envelopes[i].setDecay(decay);
+        sine.envelopes[i].setSustain(sustain);
+        sine.envelopes[i].setRelease(release);
+        
+        square.envelopes[i].setAttack(attack);
+        square.envelopes[i].setDecay(decay);
+        square.envelopes[i].setSustain(sustain);
+        square.envelopes[i].setRelease(release);
+        
+        saw.envelopes[i].setAttack(attack);
+        saw.envelopes[i].setDecay(decay);
+        saw.envelopes[i].setSustain(sustain);
+        saw.envelopes[i].setRelease(release);
+        
+        triangle.envelopes[i].setAttack(attack);
+        triangle.envelopes[i].setDecay(decay);
+        triangle.envelopes[i].setSustain(sustain);
+        triangle.envelopes[i].setRelease(release);
+    }
+}
+
+function delayOnOff(isDelay) {
+    if (!isDelay) {
+        dryMix = 1;
+    } else if (isDelay) {
+        dryMix = 0.5;
+    } 
+}
+                                
 function add(a, b) {
     return a + b;
+}
+
+function onePoleFilter(current, previous) {
+    var a = 0.9;
+    var output = previous + a * (current - previous);
+    return output;
 }
 
 function shuffle(array) {
@@ -274,7 +312,7 @@ function shuffle(array) {
   return copy;
 }
 
-////////////////////////////////////////////////// EVENTS ////////////////////////////////////////////////
+////////////////////////// EVENTS ///////////////////////
 
 function mousePressed() {
     for (b in midiKeyboard.presetButtons) {

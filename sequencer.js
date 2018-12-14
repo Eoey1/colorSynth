@@ -318,6 +318,12 @@ function Sequencer(x, y) {
                 
                 //set fader level
                 midiKeyboard.sh[0].sliderY = midiKeyboard.sh[0].y - midiKeyboard.sh[0].lineLength * 3 / 5;
+                
+                //set envelope type
+                transient1();
+                
+                //set delay
+                delayOnOff(true);
 
                 this.set[0] = true;
             }  
@@ -555,13 +561,7 @@ function Sequencer(x, y) {
                     } 
                 }
                 
-                isDelay = false;
-                
-                if (!isDelay) {
-                    dryMix = 1;
-                } else if (isDelay) {
-                    dryMix = 0.5;
-                } 
+                delayOnOff(false);
                 
                 midiKeyboard.sh[0].sliderY = midiKeyboard.sh[0].y - midiKeyboard.sh[0].lineLength * 3 / 4;
             
