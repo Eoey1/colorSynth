@@ -247,6 +247,11 @@ function transient() {
 }
 
 function transient1() {
+    var attack = 100;
+    var decay = 20;
+    var sustain = 0.5;
+    var release = 5000;
+    
     for (var i = 0; i < 13; i++) {
         sine.envelopes[i].setAttack(attack);
         sine.envelopes[i].setDecay(decay);
