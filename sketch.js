@@ -12,16 +12,15 @@ var myFilter = new maximEx.filter();
 var midiKeyboard, noiseGen, oscilloscope;
 var controls, dial, circleDial;
 
-var sine, square, saw, triangle;
-var onePoles;
-
 var isPreset1, isPreset2, isPreset3, isPreset4;
 
-var notes = [];
+var sine, square, saw, triangle;
+var onePoles;
 
 var octaveLevel = 1;
 var octaveValue = 1;
 
+var notes = [];
 var trigs = [];
 var keyboardLength = 13;
 

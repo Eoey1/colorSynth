@@ -23,7 +23,8 @@ function Dial(x, y, size) {
     
     this.onePole = new maximEx.onePole();
     this.onePole.setTime(0.05, 60); //0.1 works nicely but might not even need to be that long!
-
+    this.onePole.z = 3.9269908169872414;
+    
     this.draw = function() {
         push();
         colorMode(HSB);

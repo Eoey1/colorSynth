@@ -2,7 +2,7 @@ function Sine(attack, decay, sustain, release) {
     this.waves = [];
     this.envelopes = [];
     this.amps = 0.25;
-    
+        
     this.attack = attack;
     this.decay = decay;
     this.sustain = sustain;

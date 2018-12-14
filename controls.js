@@ -30,6 +30,7 @@ function Controls() {
     this.keyReleased = function() {
         for (var i = 0; i < this.keys.length; i++) {
             if(keyCode === this.keys[i]) {
+            //if(key === this.letters[i]) {
                 onePoles.envelopes[i].release();
             }
         }
