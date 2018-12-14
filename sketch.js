@@ -59,6 +59,7 @@ function setup() {
     canvas.style('z-index', '-1');
     
     audio.play = audioLoop;
+    //audio.buffer
     audio.outputIsArray(true, 2); //we are working stereo now !
     audio.init();
     
