@@ -9,9 +9,6 @@ var regen = 0.5;
 
 var myFilter = new maximEx.filter();
 
-var midiNote = 0;
-var conv = new maximJs.convert();
-
 var midiKeyboard, noiseGen, oscilloscope;
 var controls, dial, circleDial;
 
@@ -24,11 +21,6 @@ var notes = [];
 
 var octaveLevel = 1;
 var octaveValue = 1;
-
-var attack = 100;
-var decay = 20;
-var sustain = 0.5;
-var release = 5000;
 
 var trigs = [];
 var keyboardLength = 13;
@@ -59,7 +51,7 @@ function setup() {
     canvas.style('z-index', '-1');
     
     audio.play = audioLoop;
-    //audio.buffer
+    //audio.buffer?
     audio.outputIsArray(true, 2); //we are working stereo now !
     audio.init();
     
@@ -78,10 +70,10 @@ function setup() {
     
     controls = new Controls();
     
-    sine = new Sine();
-    square = new Square();
-    saw = new Saw();
-    triangle = new Triangle();
+    sine = new Sine(100, 20, 0.5, 5000);
+    square = new Square(100, 20, 0.5, 5000);
+    saw = new Saw(100, 20, 0.5, 5000);
+    triangle = new Triangle(100, 20, 0.5, 5000);
     
     isPreset1 = isPreset2 = isPreset3 = isPreset4 = false;
     

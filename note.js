@@ -1,5 +1,7 @@
 function Note(midiNote) {   
     this.waveforms = [];
+    var conv = new maximJs.convert();
+    
     this.freq = conv.mtof(midiNote);
     
     for (var i = 0; i < 4; i++) {

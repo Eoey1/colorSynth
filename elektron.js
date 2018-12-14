@@ -86,17 +86,13 @@ function Slider(x, y, length, height) {
         if (mouseIsPressed) {
             if (mouseX <= this.x + this.lineWidth + this.lineWidth / 10) {
                 if (mouseY >= this.sliderY && mouseY <= this.sliderY + this.h) {
-                    this.sX = mouseX - this.w / 2;
-                    this.sliderX = constrain(this.sX, this.x - this.w / 2, this.x + this.lineWidth - this.w / 2);
-                    this.smoothed = this.onePole.process(this.sliderX); // need to constrain the onePole to stop it jumping backwards
-                    this.smoothedX = constrain(this.smoothed, this.x - this.w / 2, this.x + this.lineWidth - this.w / 2); 
+                    this.smoothedX = mouseX - this.w / 2;
+                    //can just constrain it once at the end!
+                    this.smoothedX = this.onePole.process(this.smoothedX); // need to constrain the onePole to stop it jumping backwards
+                    this.smoothedX = constrain(this.smoothedX, this.x - this.w / 2, this.x + this.lineWidth - this.w / 2); 
                 }   
             }
         }
-        
-//        this.sliderX = constrain(this.sX, this.x - this.w / 2, this.x + this.lineWidth - this.w / 2);
-//        
-//        this.smoothedX = sliderPole.process(this.sliderX);
     }
     
     this.mapping = function() {
