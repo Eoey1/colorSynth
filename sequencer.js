@@ -77,8 +77,9 @@ function Sequencer(x, y) {
     }
     
      this.chassis = function() {
-        strokeWeight(2);
-        stroke(70);
+        //strokeWeight(2);
+        //stroke(70);
+        noStroke();
         fill(25);
         rect(this.xPos, this.yPos, this.width, this.height);
     } 

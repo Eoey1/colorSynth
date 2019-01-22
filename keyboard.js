@@ -250,13 +250,13 @@ function Keyboard(x, y) {
             this.spacing = 45;
             this.r = 2;
         
-            this.a = onePoles.alphavalues.slice();
+            this.alphavalues = onePoles.alphavalues.slice();
 
-            this.a.splice(1, 1);
-            this.a.splice(2, 1);
-            this.a.splice(4, 1);
-            this.a.splice(5, 1);
-            this.a.splice(6, 1);
+            this.alphavalues.splice(1, 1);
+            this.alphavalues.splice(2, 1);
+            this.alphavalues.splice(4, 1);
+            this.alphavalues.splice(5, 1);
+            this.alphavalues.splice(6, 1);
         
         push();
         
@@ -265,7 +265,7 @@ function Keyboard(x, y) {
                 this.level = map(dial.a, 225, -45, 0, (100 - this.colours[2][i]));
                 
                 //this is then added to each color so that the highest value of the dial will produce 100 on the lightness scale
-                fill(this.colours[0][i], this.colours[1][i], this.colours[2][i] + this.level, this.a[i]);
+                fill(this.colours[0][i], this.colours[1][i], this.colours[2][i] + this.level, this.alphavalues[i]);
                 noStroke();
                 
                 beginShape();
@@ -507,21 +507,21 @@ function Keyboard(x, y) {
 
             this.r = 1;
 
-            this.a = onePoles.alphavalues.slice();
+            this.alphavalues = onePoles.alphavalues.slice();
 
-            this.a.splice(0, 1);
-            this.a.splice(1, 1);
-            this.a.splice(2, 1);
-            this.a.splice(2, 1);
-            this.a.splice(3, 1);
-            this.a.splice(4, 1);
-            this.a.splice(6, 1);
+            this.alphavalues.splice(0, 1);
+            this.alphavalues.splice(1, 1);
+            this.alphavalues.splice(2, 1);
+            this.alphavalues.splice(2, 1);
+            this.alphavalues.splice(3, 1);
+            this.alphavalues.splice(4, 1);
+            this.alphavalues.splice(6, 1);
         
             push();
                 for (var i = 0; i < 2; i++) {
                     this.level = map(dial.a, 225, -45, 0, this.accidentals[2][i]);
 
-                    fill(this.accidentals[0][i], this.accidentals[1][i], this.accidentals[2][i] - this.level, this.a[i]);
+                    fill(this.accidentals[0][i], this.accidentals[1][i], this.accidentals[2][i] - this.level, this.alphavalues[i]);
                     noStroke();
 
                     beginShape();
@@ -539,7 +539,7 @@ function Keyboard(x, y) {
 
                 for (var i = 0; i < 3; i++) {
                     this.level = map(dial.a, 225, -45, 0, this.accidentals[2][i + 2]);
-                    fill(this.accidentals[0][i + 2], this.accidentals[1][i + 2], this.accidentals[2][i + 2] - this.level, this.a[i + 2]);
+                    fill(this.accidentals[0][i + 2], this.accidentals[1][i + 2], this.accidentals[2][i + 2] - this.level, this.alphavalues[i + 2]);
 
                     beginShape();
                     vertex(this.x + i * this.spacing, this.y);

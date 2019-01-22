@@ -45,12 +45,12 @@ function preload() {
 
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
+    //canvas = createCanvas(displayWidth, displayHeight);
     canvas.position(0, 0);
     canvas.parent('sketch-div');
     canvas.style('z-index', '-1');
     
     audio.play = audioLoop;
-    //audio.buffer?
     audio.outputIsArray(true, 2); //we are working stereo now !
     audio.init();
     
@@ -69,10 +69,15 @@ function setup() {
     
     controls = new Controls();
     
-    sine = new Sine(100, 20, 0.5, 5000);
-    square = new Square(100, 20, 0.5, 5000);
-    saw = new Saw(100, 20, 0.5, 5000);
-    triangle = new Triangle(100, 20, 0.5, 5000);
+    var attack = 100;
+    var decay = 20;
+    var sustain = 0.5;
+    var release = 5000;
+    
+    sine = new Sine(attack, decay, sustain, release);
+    square = new Square(attack, decay, sustain, release);
+    saw = new Saw(attack, decay, sustain, release);
+    triangle = new Triangle(attack, decay, sustain, release);
     
     isPreset1 = isPreset2 = isPreset3 = isPreset4 = false;
     
@@ -98,7 +103,7 @@ function draw() {
     background(135);
         
     // these trigger the one poles that trigger colours so should be in the draw loop
-    controls.keyTyped();
+    //controls.keyTyped();
     
     //this displays the colours triggered by the one poles 
     onePoles.display();  
@@ -243,6 +248,9 @@ function transient() {
         triangle.envelopes[i].setDecay(10);
         triangle.envelopes[i].setSustain(0.75);
         triangle.envelopes[i].setRelease(1000);
+        
+        onePoles.attacks[i] = 0.01;
+        onePoles.releases[i] = 0.1;
     }
 }
 
@@ -272,6 +280,9 @@ function transient1() {
         triangle.envelopes[i].setDecay(decay);
         triangle.envelopes[i].setSustain(sustain);
         triangle.envelopes[i].setRelease(release);
+        
+        onePoles.attacks[i] = 0.01;
+        onePoles.releases[i] = 0.4;
     }
 }
 
@@ -320,7 +331,6 @@ function mousePressed() {
     }
     
     dial.pressed();
-    
     sequencer.pressed();  
     noiseGen.dial.pressed();
 }
@@ -342,7 +352,9 @@ function keyReleased() {
 }
 
 function keyTyped() {
-    //controls.keyTyped();
+    //seems you can only register 6 key presses at once?
+    //if this is placed in the draw loop you can build up to more than 6 but only trigger two onepoles simultaneously
+    controls.keyTyped();
 }
 
 //maybe if it's just the dipslay that takes the size arguments for drawing?

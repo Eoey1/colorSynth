@@ -30,13 +30,14 @@ function Dial(x, y, size) {
         colorMode(HSB);
         
         //nice dark turquoise / teal
-        fill(195, 75, 45);
+        //fill(195, 75, 45);
         
         //light gray green
         //fill(195, 50, 50);
         
         //dark gray
         //fill(190, 15, 35);
+        fill(0, 0, 10);
         
         noStroke();
         //fill(210, 75, 45);
@@ -188,7 +189,7 @@ function Dial(x, y, size) {
 
         push();
         stroke(240);
-        strokeWeight(size / 10);
+        strokeWeight(size / 9);
         strokeCap(ROUND);
         beginShape();
         //choose this if you want the dial hand to start at the center of the circle

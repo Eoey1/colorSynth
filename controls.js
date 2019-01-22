@@ -15,7 +15,8 @@ function Controls() {
     this.keyTyped = function() {
         for (var i = 0; i < this.letters.length; i++)
         {
-            if (keyIsPressed === true && key === this.letters[i]) {
+            if (key === this.letters[i]) {
+            //if (keyIsPressed === true && key === this.letters[i]) { //not sure we need this boolean...
                 onePoles.envelopes[i].trigger();  
             
                 for (var j = 0; j < sequencer.cycleLength; j++) { // this loop lets you adjust the sequencer values from the keyboard
