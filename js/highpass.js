@@ -212,7 +212,7 @@ function Dial(x, y, size) {
         //arc(this.centreX, this.centreY, this.radius * 2.1, this.radius * 2.1, 3 * PI / 4, PI * 2 + PI / 4);
         
         strokeCap(ROUND);
-        stroke(200, 100, 75);
+        stroke(205, 100, 60);
         //stroke(200, 100, 100);
         arc(this.centreX, this.centreY, this.radius * 2.1, this.radius * 2.1, 3 * PI / 4 - 0.0000001, - this.c);
         pop();

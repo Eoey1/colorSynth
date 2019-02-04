@@ -185,10 +185,12 @@ function audioLoop() {
     sequencer.amplitude();
     sequencer.slider.pressed();
     
-    var sig1 = sine.waves.reduce(add, 0);
-    var sig2 = saw.waves.reduce(add, 0);
-    var sig3 = square.waves.reduce(add, 0);
-    var sig4 = triangle.waves.reduce(add, 0);
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    
+    var sig1 = sine.waves.reduce(reducer);
+    var sig2 = saw.waves.reduce(reducer);
+    var sig3 = square.waves.reduce(reducer);
+    var sig4 = triangle.waves.reduce(reducer);
     
     //this determines whether sig 5 is white, pink or brown noise according to the position of the dial
     if (noiseGen.dial.white) {
