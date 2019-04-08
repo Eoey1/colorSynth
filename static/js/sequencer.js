@@ -10,7 +10,7 @@ function Sequencer(x, y) {
     this.click = new maximJs.maxiSample();
     this.isPlaying = true;
     
-    audio.loadSample("sounds/808-clave.wav", this.click);
+    audio.loadSample("../sounds/808-clave.wav", this.click);
     
     this.letters = [' _', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B', 'C'];  
     
@@ -224,7 +224,7 @@ function Sequencer(x, y) {
                 mouseX <= this.displayPos.x + i * this.spacing + this.displayWidth && 
                 mouseY >= this.displayPos.y && 
                 mouseY <= this.displayPos.y + this.displayHeight) {
-                //checks whether a step of the seuqncer has been clicked
+                //checks whether a step of the sequencer has been clicked
                 this.isPressed[i] = true; 
             } else {
                 if (this.keyboardIsPressed == false) {
@@ -277,7 +277,7 @@ function Sequencer(x, y) {
             }
             
             if (this.isClick && this.click.isReady()) {
-                this.metronome += this.click.playOnce();
+                this.metronome = this.click.playOnce();
             } 
                 else {
                 this.metronome = 0;

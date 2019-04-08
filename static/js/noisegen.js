@@ -165,8 +165,8 @@ function Generator(x, y) {
     
     this.title = function() {
         textSize(this.width * 0.075);
-        textFont(noiseGenFont);
-        //textFont('Condiment');
+        //textFont(noiseGenFont);
+        textFont('Condiment');
         
         noStroke();
         fill(245);

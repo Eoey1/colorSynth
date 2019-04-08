@@ -1,12 +1,11 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-  <title>colourSynth</title>
+  <title>colorSynth</title>
 
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans:100, 300|Open+Sans">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 <h1>colourSynth - Manual</h1>
@@ -35,7 +34,7 @@
     
 <p>Use the sliders on the noise generator to fade in different kinds of noise, the colour of the<br>waveform corresponds to the type of noise being produced</p>
     
-<a style="color:darkgray;text-decoration: none;" href="http://igor.gold.ac.uk/~eroe001/virtualSynth/">Click here to start playing</a> 
-
+<a style="color:darkgray;text-decoration: none;" href={{ url_for('playing') }}>Click here to start playing</a> 
+<!-- <a style="color:darkgray;text-decoration: none;" href="play">Click here to start playing</a> -->
 </body>
 </html>

@@ -37,10 +37,10 @@ var canvas;
 var myFont, sequencerFont, noiseGenFont, highPassFont;
 
 function preload() {
-    myFont = loadFont('assets/digital-7.ttf');
-    sequencerFont = loadFont('assets/Orbitron-Regular.ttf');
-    noiseGenFont = loadFont('assets/Condiment-Regular.ttf');
-    highPassFont = loadFont('assets/Comfortaa-Light.ttf');
+//    myFont = loadFont('../fonts/digital-7.ttf');
+//    sequencerFont = loadFont('assets/Orbitron-Regular.ttf');
+//    noiseGenFont = loadFont('assets/Condiment-Regular.ttf');
+//    highPassFont = loadFont('assets/Comfortaa-Light.ttf');
 }
 
 function setup() {

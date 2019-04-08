@@ -1,0 +1,14 @@
+@font-face {
+    font-family: digital-7;
+    src: url(../fonts/digital-7.ttf) format('truetype');
+}
+
+body {
+    padding: 0;
+    margin: 0;    
+}
+
+#noisegen {
+    /*font-family: 'Comfortaa';*/
+    /*font-family: 'Mr Bedfort';*/
+}

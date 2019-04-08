@@ -241,7 +241,7 @@ function Dial(x, y, size) {
             //fill is full white since this is a display
             fill(255);
             noStroke();
-            textFont(myFont);
+            textFont('digital-7');
             textSize(this.displayHeight * 4 / 5);
         
             //have to subtract half the height of the box since it is in rectMode(CENTER)
@@ -268,7 +268,7 @@ function Dial(x, y, size) {
         fill(245);
         //textFont('Fjalla One');
         textSize(this.radius * 2 / 5);
-        textFont('Josefin Sans');
+        //textFont('Josefin Sans');
         //text("HIGH-PASS", this.centreX - this.radius * 1.25, this.centreY - this.radius - 40);
         //text("High-pass", this.centreX - this.radius, this.centreY - this.radius * 1.25);   
     }
