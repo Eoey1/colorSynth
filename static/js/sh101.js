@@ -1,6 +1,6 @@
 function Sh(x, y, length) {
-    this.w = 20;
-    this.h = 20;
+    this.w = length * 0.1379;
+    this.h = this.w;
     this.x = x;
     this.y = y;
     this.sliderX = this.x - this.w / 2;
@@ -29,7 +29,7 @@ function Sh(x, y, length) {
         //stroke(100);
         stroke(70);
 //        strokeWeight(10);
-        strokeWeight(5.5);
+        strokeWeight(length * 0.03793);
         strokeCap(SQUARE);
 //        strokeCap(ROUND);
         line(this.x, this.lineY, this.x, this.lineY - this.lineLength);
@@ -54,7 +54,7 @@ function Sh(x, y, length) {
         
         var o = 2;
         stroke(100);
-        strokeWeight(2);
+        strokeWeight(length * 0.013793);
         noFill();
         beginShape()
         vertex(this.sliderX + o, this.sliderY + o + this.r);
@@ -69,7 +69,7 @@ function Sh(x, y, length) {
 
         push();
         strokeCap(SQUARE);
-        strokeWeight(2.5);
+        strokeWeight(length * 0.01724);
         stroke(200);
         line(this.sliderX + this.w / 5, this.sliderY + this.h / 2, this.sliderX + this.w * 4 / 5, this.sliderY + this.h / 2);
         pop();

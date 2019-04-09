@@ -51,10 +51,10 @@ function Keyboard(x, y, width, height) {
     
     this.presetButtons = [];
 
-    this.diam = 30;
-    this.buttonX = this.xPos + 45;
-    this.buttonY = this.yPos + 30;
-    this.spacing = 90;
+    this.diam = this.width / 18;
+    this.buttonX = this.xPos + this.width / 12;
+    this.buttonY = this.yPos + this.height / 9;
+    this.spacing = this.width / 6;
     
     this.sh = [];
     
@@ -66,7 +66,7 @@ function Keyboard(x, y, width, height) {
     }
     
     for (var i = 0; i < 4; i++) {
-        this.sh.push(new Sh(this.xPos + 420 + i * 32.5, this.yPos + 215, 145));
+        this.sh.push(new Sh(this.xPos + this.width * 0.777 + i * this.width * 0.060185, this.yPos + this.height * 0.7962963, this.height * 0.537));
     }
     
     for (var i = 0; i < 4; i++) {
@@ -85,13 +85,13 @@ function Keyboard(x, y, width, height) {
         
         push();
         for (b in this.presetButtons) {
-            //this.presetButtons[b].draw();
+            this.presetButtons[b].draw();
         }
         pop();
         
         push();
         for (var i = 0; i < this.sh.length; i++) {
-            //this.sh[i].draw();
+            this.sh[i].draw();
         }
         pop();
     
@@ -102,15 +102,16 @@ function Keyboard(x, y, width, height) {
 
         push();
         translate(this.xPos, this.yPos);
+        //translate(this.width * 0.07648, this.width * 0.07648)
         
         push();
         strokeCap(PROJECT);
-        //this.waveformGraphics();
+        this.waveformGraphics();
         pop();
         
-        translate(375, 240);
-        scale(0.6);
-        //this.waveformGraphics2();
+        translate(this.width * 0.69444, this.width * 0.444444);
+        scale(this.width * 0.00111);
+        this.waveformGraphics2();
         pop();
         
         pop();
@@ -132,8 +133,8 @@ function Keyboard(x, y, width, height) {
     }
 
     this.resize = function() {
-        this.width = 540;
-        this.height = 270;
+        this.width = width;
+        this.height = height;
 
 
     }
@@ -588,43 +589,47 @@ function Keyboard(x, y, width, height) {
     this.waveformGraphics = function()
     {
         push();
-        scale(1.425);
-//        scale(0.95);
+        scale(this.width * 0.002638);
+
         push();
-        translate(2, 2);
+        translate(- this.width * 0.0037, this.width * 0.0037037);
         this.sine();
         pop();
+
         push();
-        translate(5, 2);
+        translate(0, this.width * 0.0037037);
         this.square();
         pop();
+
         push();
-        translate(8, 2);
+        translate(- this.width * 0.00185, this.width * 0.0037037);
         this.saw();
         pop();
+
         push();
-        translate(11, 2);
+        translate(this.width * 0.0055, this.width * 0.0055);
         this.triangle();
         pop();
+
         pop();
     }
     
     this.waveformGraphics2 = function()
     {
         push();
-        translate(12, -4);
+        translate(this.width * 0.02222, - this.width * 0.00740);
         this.sine2();
         pop();
         push();
-        translate(4, -4);
+        translate(this.width * 0.01111, - this.width * 0.00740);
         this.square2();
         pop();
         push();
-        translate(-6, -4);
+        translate(- this.width * 0.01111, - this.width * 0.00740);
         this.saw2();
         pop();
         push();
-        translate(-16, -4);
+        translate(- this.width * 0.0259, - this.width * 0.00740);
         this.triangle2();
         pop();
     }
@@ -633,10 +638,10 @@ function Keyboard(x, y, width, height) {
     this.sine = function()
     {   
         push();
-        scale(0.6);
-        translate(80, 20);
+        scale(0.00111 * this.width);
+        translate(0.148 * this.width, this.width * 0.037);
         stroke(255);
-        strokeWeight(3);
+        strokeWeight(this.width * 0.005555);
         this.a = 0.0;
         this.inc = TWO_PI / 25.0;
     
@@ -654,10 +659,10 @@ function Keyboard(x, y, width, height) {
     this.sine2 = function()
     {   
         push();
-        scale(0.6);
-        translate(80, 20);
+        scale(0.00111 * this.width);
+        translate(0.148 * this.width, this.width * 0.037);
         stroke(255);
-        strokeWeight(5);
+        strokeWeight(this.width * 0.00925);
         this.a = 0.0;
         this.inc = TWO_PI / 25.0;
     
@@ -676,28 +681,37 @@ function Keyboard(x, y, width, height) {
     {
         push();
         stroke(255);
-        strokeWeight(3);
-        translate(110, 12);
-        scale(0.6);
-        line(0, 0, 0, 20);
-        line(0, 0, 20, 0);
-        line(20, 0, 20, 20);
-        line(20, 20, 40, 20);
-        line(40, 20, 40, 0);
+        strokeWeight(this.width * 0.00555);
+        translate(this.width * 0.2037, this.width * 0.0222);
+        scale(0.00111 * this.width);
+
+        this.w = this.width * 0.037;
+
+        line(0, 0, 0, this.w);
+        line(0, 0, this.w, 0);
+        line(this.w, 0, this.w, this.w);
+        line(this.w, this.w, this.w * 2, this.w);
+        line(this.w * 2, this.w, this.w * 2, 0);
+
         pop();
     }
     this.square2 = function()
     {
         push();
         stroke(255);
-        strokeWeight(5);
+        strokeWeight(this.width * 0.00925);
         translate(110, 12);
-        scale(0.6);
-        line(0, 0, 0, 20);
-        line(0, 0, 20, 0);
-        line(20, 0, 20, 20);
-        line(20, 20, 40, 20);
-        line(40, 20, 40, 0);
+        scale(0.00111 * this.width);
+
+
+        this.w = this.width * 0.037;
+
+        line(0, 0, 0, this.w);
+        line(0, 0, this.w, 0);
+        line(this.w, 0, this.w, this.w);
+        line(this.w, this.w, this.w * 2, this.w);
+        line(this.w * 2, this.w, this.w * 2, 0);
+
         pop();
     }
     
@@ -705,11 +719,14 @@ function Keyboard(x, y, width, height) {
     {
         push();
         stroke(255);
-        strokeWeight(3);
-        scale(0.6);
-        translate(285, 20);
-        line(0, 20, 40, 0);
-        line(40, 0, 40, 20);
+        strokeWeight(this.width * 0.00555);
+        scale(0.00111 * this.width);
+
+        this.w = this.width * 0.037;
+
+        translate(this.width * 0.52777, this.w);
+        line(0, this.w, this.w * 2, 0);
+        line(this.w * 2, 0, this.w * 2, this.w);
         pop();
     }
     
@@ -717,11 +734,14 @@ function Keyboard(x, y, width, height) {
     {
         push();
         stroke(255);
-        strokeWeight(5);
-        scale(0.6);
-        translate(285, 20);
-        line(0, 20, 40, 0);
-        line(40, 0, 40, 20);
+        strokeWeight(this.width * 0.00925);
+        scale(0.00111 * this.width);
+
+        this.w = this.width * 0.037;
+
+        translate(this.width * 0.52777, this.w);
+        line(0, this.w, this.w * 2, 0);
+        line(this.w * 2, 0, this.w * 2, this.w);
         pop();
     }
     
@@ -729,11 +749,13 @@ function Keyboard(x, y, width, height) {
     {
         push();
         stroke(255);
-        strokeWeight(3);
-        translate(232, 12);
-        scale(0.6);
-        line(0, 20, 20, 0);
-        line(20, 0, 40, 20);
+        strokeWeight(this.width * 0.005555);
+        translate(this.width * 0.429629, this.width * 0.0222);
+        scale(0.00111 * this.width);
+
+        this.w = this.width * 0.037;
+        line(0, this.w, this.w, 0);
+        line(this.w, 0, this.w * 2, this.w);
         pop();
     }
     
@@ -741,11 +763,12 @@ function Keyboard(x, y, width, height) {
     {
         push();
         stroke(255);
-        strokeWeight(5);
-        translate(232, 12);
-        scale(0.6);
-        line(0, 20, 20, 0);
-        line(20, 0, 40, 20);
+        strokeWeight(this.width * 0.00925);
+        translate(this.width * 0.429629, this.width * 0.0222);
+        scale(0.00111 * this.width);
+        this.w = this.width * 0.037;
+        line(0, this.w, this.w, 0);
+        line(this.w, 0, this.w * 2, this.w);
         pop();
     }
 }
