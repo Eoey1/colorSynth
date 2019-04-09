@@ -22,7 +22,6 @@ var octaveValue = 1;
 
 var notes = [];
 var trigs = [];
-var keyboardLength = 13;
 
 var stereoOutput = maximJs.maxiTools.getArrayAsVectorDbl([0,0]);
 var panner = new maximJs.maxiMix();
@@ -33,15 +32,6 @@ var sequencer;
 var timer = new maximJs.maxiOsc(); 
 
 var canvas;
-
-var myFont, sequencerFont, noiseGenFont, highPassFont;
-
-function preload() {
-//    myFont = loadFont('../fonts/digital-7.ttf');
-//    sequencerFont = loadFont('assets/Orbitron-Regular.ttf');
-//    noiseGenFont = loadFont('assets/Condiment-Regular.ttf');
-//    highPassFont = loadFont('assets/Comfortaa-Light.ttf');
-}
 
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
@@ -95,8 +85,9 @@ function setup() {
         
         trigs.push(0);
     }
-    
-    midiKeyboard = new Keyboard(margin, margin);
+
+    var goldenRatio = width - (width / 1.61803398875);
+    midiKeyboard = new Keyboard(margin, margin * 1.5, goldenRatio, goldenRatio / 2);
 }
 
 function draw() {   

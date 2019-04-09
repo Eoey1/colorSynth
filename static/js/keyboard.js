@@ -1,4 +1,4 @@
-function Keyboard(x, y) {  
+function Keyboard(x, y, width, height) {  
     //colours in HSL
     this.hsl = [[0, 100, 50], [274, 100, 50], [60, 100, 50], [323, 45, 50], [193, 100, 88], [342, 100, 34], [234, 97, 75], [30, 100, 50], [271, 96, 72], [120, 60, 50], [341, 28, 53], [209, 100, 78], [0, 100, 50]];
     
@@ -44,8 +44,10 @@ function Keyboard(x, y) {
 
     this.xPos = x;
     this.yPos = y;
-    this.width = 540;
-    this.height = 270;
+    this.width = width;
+    this.height = height;
+
+    this.goldenRatio = 1.61803398875;
     
     this.presetButtons = [];
 
@@ -83,13 +85,13 @@ function Keyboard(x, y) {
         
         push();
         for (b in this.presetButtons) {
-            this.presetButtons[b].draw();
+            //this.presetButtons[b].draw();
         }
         pop();
         
         push();
         for (var i = 0; i < this.sh.length; i++) {
-            this.sh[i].draw();
+            //this.sh[i].draw();
         }
         pop();
     
@@ -103,12 +105,12 @@ function Keyboard(x, y) {
         
         push();
         strokeCap(PROJECT);
-        this.waveformGraphics();
+        //this.waveformGraphics();
         pop();
         
         translate(375, 240);
         scale(0.6);
-        this.waveformGraphics2();
+        //this.waveformGraphics2();
         pop();
         
         pop();
@@ -125,6 +127,15 @@ function Keyboard(x, y) {
         square.amps = this.sh[1].faderValue * 0.035;
         saw.amps = this.sh[2].faderValue * 0.05;
         triangle.amps = this.sh[3].faderValue * 0.4;
+
+        // Set the faders to default to this?
+    }
+
+    this.resize = function() {
+        this.width = 540;
+        this.height = 270;
+
+
     }
     
     this.chassis = function() {
@@ -132,7 +143,9 @@ function Keyboard(x, y) {
         stroke(75);
         fill(0);
         rect(this.xPos, this.yPos, this.width, this.height);
-        rect(this.xPos + 28, this.yPos + 55, 363, 183); 
+
+        //keybed dimensions: width = 363, height = 183
+        rect(this.xPos + this.width * 0.0518, this.yPos + this.height * 0.2037, this.width * 0.67222, this.height * 0.677); 
         
 //        this.x = this.xPos + this.width - this.width / 6 - 17;
 //        this.y = this.yPos + 12;
@@ -163,7 +176,7 @@ function Keyboard(x, y) {
         
         noStroke();
         fill(245);
-        textSize(30);
+        textSize(this.width / 18);
         textFont('Orbitron');
         text("-      +", this.xPos + this.width - this.width / 5, this.yPos + this.height / 7);
         //text("-  +", this.xPos + this.width - this.width / 6 - 5, this.yPos + this.height / 7);
@@ -179,10 +192,11 @@ function Keyboard(x, y) {
         fill(240);
         stroke(0);
         
-        this.x = this.xPos + 30;
-        this.y = this.yPos + 57;
-        this.w = 45;
-        this.h = 180;
+        this.x = this.xPos + this.width / 18;
+        this.y = this.yPos + this.height / 4.7368;
+
+        this.w = this.width / 12;
+        this.h = this.height * 2 / 3;
         
         this.spacing = this.w;
         this.r = 2;
@@ -203,12 +217,12 @@ function Keyboard(x, y) {
         fill(0);
         stroke(30);
         
-        this.x = this.xPos + 60;
-        this.y = this.yPos + 57;
-        this.w = 22.5;
-        this.h = 120;
+        this.x = this.xPos + this.width / 9;
+        this.y = this.yPos + this.height / 4.7368;
+        this.w = (this.width / 12 * this.goldenRatio) - this.width / 12;
+        this.h = (this.height * 2 / 3 * this.goldenRatio) - this.height * 2 / 3;
         
-        this.spacing = 49.5;
+        this.spacing = this.width * 0.0916;
         this.r = 1;
 
         for (var i = 0; i < 2; i++) {
@@ -222,7 +236,7 @@ function Keyboard(x, y) {
             endShape(CLOSE);
         }
         
-        this.x = this.xPos + 195;
+        this.x = this.xPos + this.width * 0.36111;
         
         for (var i = 0; i < 3; i++) {
             beginShape();
@@ -242,12 +256,12 @@ function Keyboard(x, y) {
 
             this.offset = 0.25;
 
-            this.x = this.xPos + 30 + this.offset;
-            this.y = this.yPos + 57 + this.offset;
-            this.w = 45 - this.offset * 2;
-            this.h = 180 - this.offset * 2;
+            this.x = this.xPos + this.width / 18 + this.offset;
+            this.y = this.yPos + this.height / 4.7368 + this.offset;
+            this.w = this.width / 12 - this.offset * 2;
+            this.h = this.height * 2 / 3 - this.offset * 2;
 
-            this.spacing = 45;
+            this.spacing = this.width / 12;
             this.r = 2;
         
             this.alphavalues = onePoles.alphavalues.slice();
@@ -281,16 +295,79 @@ function Keyboard(x, y) {
             pop();
         pop();
     }
+
+    this.colourAccidentals = function() {
+        push();
+            colorMode(HSL, 360, 100, 100, 255);
+
+            this.offset = 0.5;
+
+            this.x = this.xPos + this.width / 9 + this.offset;
+            this.y = this.yPos + this.height / 4.7368 + this.offset;
+            this.w = (this.width / 12 * this.goldenRatio) - this.width / 12 - this.offset * 2;
+            this.h = (this.height * 2 / 3 * this.goldenRatio) - this.height * 2 / 3 - this.offset * 2;
+
+            this.spacing = this.width * 0.0916;
+
+            this.r = 1;
+
+            this.alphavalues = onePoles.alphavalues.slice();
+
+            this.alphavalues.splice(0, 1);
+            this.alphavalues.splice(1, 1);
+            this.alphavalues.splice(2, 1);
+            this.alphavalues.splice(2, 1);
+            this.alphavalues.splice(3, 1);
+            this.alphavalues.splice(4, 1);
+            this.alphavalues.splice(6, 1);
+        
+            push();
+                for (var i = 0; i < 2; i++) {
+                    this.level = map(dial.a, 225, -45, 0, this.accidentals[2][i]);
+
+                    fill(this.accidentals[0][i], this.accidentals[1][i], this.accidentals[2][i] - this.level, this.alphavalues[i]);
+                    noStroke();
+
+                    beginShape();
+                    vertex(this.x + i * this.spacing, this.y);
+                    vertex(this.x + this.w + i * this.spacing, this.y);
+                    vertex(this.x + this.w + i * this.spacing, this.y + this.h - this.r);
+                    quadraticVertex(this.x + this.w + i * this.spacing, this.y + this.h, this.x + this.w - this.r + i * this.spacing, this.y + this.h);
+                    vertex(this.x + this.r + i * this.spacing, this.y + this.h);
+                    quadraticVertex(this.x + i * this.spacing, this.y + this.h, this.x + i * this.spacing, this.y + this.h - this.r);
+                    endShape(CLOSE);
+                }
+
+
+                this.x = this.xPos + this.width * 0.36111 + this.offset;
+
+                for (var i = 0; i < 3; i++) {
+                    this.level = map(dial.a, 225, -45, 0, this.accidentals[2][i + 2]);
+                    fill(this.accidentals[0][i + 2], this.accidentals[1][i + 2], this.accidentals[2][i + 2] - this.level, this.alphavalues[i + 2]);
+
+                    beginShape();
+                    vertex(this.x + i * this.spacing, this.y);
+                    vertex(this.x + this.w + i * this.spacing, this.y);
+                    vertex(this.x + this.w + i * this.spacing, this.y + this.h - this.r);
+                    quadraticVertex(this.x + this.w + i * this.spacing, this.y + this.h, this.x + this.w - this.r + i * this.spacing, this.y + this.h);
+                    vertex(this.x + this.r + i * this.spacing, this.y + this.h);
+                    quadraticVertex(this.x + i * this.spacing, this.y + this.h, this.x + i * this.spacing, this.y + this.h - this.r);
+                    endShape(CLOSE);
+                }
+            pop();
+        pop();
+    }
     
     this.pressedFirst = function() {
+        // Call keyPressed for the black keys first
         this.values = [1, 3, 6, 8, 10];
 
-        this.x = this.xPos + 60;
-        this.y = this.yPos + 57;
-        this.w = 22.5;
-        this.h = 120;
-
-        this.spacing = 49.5;
+        this.x = this.xPos + this.width / 9;
+        this.y = this.yPos + this.height / 4.7368;
+        this.w = (this.width / 12 * this.goldenRatio) - this.width / 12;
+        this.h = (this.height * 2 / 3 * this.goldenRatio) - this.height * 2 / 3;
+        
+        this.spacing = this.width * 0.0916;
         this.r = 1;
         
         for (var i = 0; i < 2; i++) {  
@@ -320,7 +397,7 @@ function Keyboard(x, y) {
             }
         }
         
-        this.x = this.xPos + 195 + this.offset;
+        this.x = this.xPos + this.width * 0.36111;
         
         for (var i = 0; i < 3; i++) {  
             if (mouseIsPressed) {
@@ -353,12 +430,12 @@ function Keyboard(x, y) {
     this.releasedFirst = function() {
         this.values = [1, 3, 6, 8, 10];
         
-        this.x = this.xPos + 60;
-        this.y = this.yPos + 57;
-        this.w = 22.5;
-        this.h = 120;
+        this.x = this.xPos + this.width / 9;
+        this.y = this.yPos + this.height / 4.7368;
+        this.w = (this.width / 12 * this.goldenRatio) - this.width / 12;
+        this.h = (this.height * 2 / 3 * this.goldenRatio) - this.height * 2 / 3;
 
-        this.spacing = 49.5;
+        this.spacing = this.width * 0.0916;
         this.r = 1;
 
         for (var i = 0; i < 2; i++) {  
@@ -370,7 +447,7 @@ function Keyboard(x, y) {
             }
         }
         
-        this.x = this.xPos + 195 + this.offset;
+        this.x = this.xPos + this.width * 0.36111;
         
         for (var i = 0; i < 3; i++) {  
             if (mouseX >= this.x + (i * this.spacing) && mouseX < (this.x + this.w) + (i * this.spacing)) {
@@ -385,12 +462,20 @@ function Keyboard(x, y) {
     this.pressed = function() {
         this.values = [0, 2, 4, 5, 7, 9, 11, 12];
 
+        this.x = this.xPos + this.width / 18;
+        this.y = this.yPos + this.height / 4.7368;
+
+        this.w = this.width / 12;
+        this.h = this.height * 2 / 3;
+        
+        this.spacing = this.w;
+
         //Need to use some logic so they release only if they have been triggered first
         for (var i = 0; i < 8; i++) {  
             if (mouseIsPressed && !this.isTriggered[1] && !this.isTriggered[3] && !this.isTriggered[6] && !this.isTriggered[8] && !this.isTriggered[10]) {
                 //this works because the spacing and width are equal
-                if (mouseX >= (this.xPos + 30) + (i * 45) && mouseX < (this.xPos + 30) + ((i + 1) * 45)) {
-                    if (mouseY >= this.yPos + 57 && mouseY < this.yPos + 57 + 180) {
+                if (mouseX >= this.x + (i * this.w) && mouseX < this.x + ((i + 1) * this.w)) {
+                    if (mouseY >= this.y && mouseY < this.y + this.h) {
                         onePoles.envelopes[this.values[i]].trigger();
                         
                         //change sequencer value if note is pressed
@@ -421,30 +506,30 @@ function Keyboard(x, y) {
     this.released = function() {
         this.values = [0, 2, 4, 5, 7, 9, 11, 12];
 
+        this.x = this.xPos + this.width / 18;
+        this.y = this.yPos + this.height / 4.7368;
+
+        this.w = this.width / 12;
+        this.h = this.height * 2 / 3;
+        
+        this.spacing = this.w;
+
         for (var i = 0; i < 8; i++) {  
-            if (mouseX >= (this.xPos + 30) + (i * 45) && mouseX < (this.xPos + 30) + ((i + 1) * 45)) {
+            if (mouseX >= this.x + (i * this.w) && mouseX < this.x + ((i + 1) * this.w)) {
                 onePoles.envelopes[this.values[i]].release();
             }   
         }
-
-//        for (var i = 0; i < 8; i++) {  
-//            if (mouseX >= (this.xPos + 30) + (i * 45) && mouseX < (this.xPos + 30) + ((i + 1) * 45)) {
-//                if(!this.isTriggered[1] && !this.isTriggered[3] && !this.isTriggered[6] && !this.isTriggered[8] && !this.isTriggered[10]) {
-//                    onePoles.envelopes[this.values[i]].release();
-//                }   
-//            }
-//        }
     }
     
     this.midiPressedFirst = function() {
         this.values = [1, 3, 6, 8, 10];
 
-        this.x = this.xPos + 60;
-        this.y = this.yPos + 57;
-        this.w = 22.5;
-        this.h = 120;
-
-        this.spacing = 49.5;
+        this.x = this.xPos + this.width / 9;
+        this.y = this.yPos + this.height / 4.7368;
+        this.w = (this.width / 12 * this.goldenRatio) - this.width / 12;
+        this.h = (this.height * 2 / 3 * this.goldenRatio) - this.height * 2 / 3;
+        
+        this.spacing = this.width * 0.0916;
         this.r = 1;
         
         for (var i = 0; i < 2; i++) {  
@@ -460,7 +545,7 @@ function Keyboard(x, y) {
             }
         }
         
-        this.x = this.xPos + 195 + this.offset;
+        this.x = this.xPos + this.width * 0.36111;
         
         for (var i = 0; i < 3; i++) {  
             if (mouseIsPressed) {
@@ -479,10 +564,18 @@ function Keyboard(x, y) {
     this.midiPressed = function() {
         this.values = [0, 2, 4, 5, 7, 9, 11, 12];
 
+        this.x = this.xPos + this.width / 18;
+        this.y = this.yPos + this.height / 4.7368;
+
+        this.w = this.width / 12;
+        this.h = this.height * 2 / 3;
+        
+        this.spacing = this.w;
+
         for (var i = 0; i < 8; i++) {  
             if (mouseIsPressed && !this.isTriggered[1] && !this.isTriggered[3] && !this.isTriggered[6] && !this.isTriggered[8] && !this.isTriggered[10]) {
-                if (mouseX >= (this.xPos + 30) + (i * 45) && mouseX < (this.xPos + 30) + ((i + 1) * 45)) {
-                    if (mouseY >= this.yPos + 57 && mouseY < this.yPos + 57 + 180) {
+                if (mouseX >= this.x + (i * this.w) && mouseX < this.x + ((i + 1) * this.w)) {
+                    if (mouseY >= this.y && mouseY < this.y + this.h) {
                         trigs[this.values[i]] = 1;
                     }
                 }
@@ -490,68 +583,6 @@ function Keyboard(x, y) {
                 //trigs[this.values[i]] = 0;
             }   
         }
-    }
-        
-    this.colourAccidentals = function() {
-        push();
-            colorMode(HSL, 360, 100, 100, 255);
-
-            this.offset = 0.5;
-
-            this.x = this.xPos + 60 + this.offset;
-            this.y = this.yPos + 57 + this.offset;
-            this.w = 22.5 - this.offset * 2;
-            this.h = 120 - this.offset * 2;
-
-            this.spacing = 49.5;
-
-            this.r = 1;
-
-            this.alphavalues = onePoles.alphavalues.slice();
-
-            this.alphavalues.splice(0, 1);
-            this.alphavalues.splice(1, 1);
-            this.alphavalues.splice(2, 1);
-            this.alphavalues.splice(2, 1);
-            this.alphavalues.splice(3, 1);
-            this.alphavalues.splice(4, 1);
-            this.alphavalues.splice(6, 1);
-        
-            push();
-                for (var i = 0; i < 2; i++) {
-                    this.level = map(dial.a, 225, -45, 0, this.accidentals[2][i]);
-
-                    fill(this.accidentals[0][i], this.accidentals[1][i], this.accidentals[2][i] - this.level, this.alphavalues[i]);
-                    noStroke();
-
-                    beginShape();
-                    vertex(this.x + i * this.spacing, this.y);
-                    vertex(this.x + this.w + i * this.spacing, this.y);
-                    vertex(this.x + this.w + i * this.spacing, this.y + this.h - this.r);
-                    quadraticVertex(this.x + this.w + i * this.spacing, this.y + this.h, this.x + this.w - this.r + i * this.spacing, this.y + this.h);
-                    vertex(this.x + this.r + i * this.spacing, this.y + this.h);
-                    quadraticVertex(this.x + i * this.spacing, this.y + this.h, this.x + i * this.spacing, this.y + this.h - this.r);
-                    endShape(CLOSE);
-                }
-
-
-                this.x = this.xPos + 195 + this.offset;
-
-                for (var i = 0; i < 3; i++) {
-                    this.level = map(dial.a, 225, -45, 0, this.accidentals[2][i + 2]);
-                    fill(this.accidentals[0][i + 2], this.accidentals[1][i + 2], this.accidentals[2][i + 2] - this.level, this.alphavalues[i + 2]);
-
-                    beginShape();
-                    vertex(this.x + i * this.spacing, this.y);
-                    vertex(this.x + this.w + i * this.spacing, this.y);
-                    vertex(this.x + this.w + i * this.spacing, this.y + this.h - this.r);
-                    quadraticVertex(this.x + this.w + i * this.spacing, this.y + this.h, this.x + this.w - this.r + i * this.spacing, this.y + this.h);
-                    vertex(this.x + this.r + i * this.spacing, this.y + this.h);
-                    quadraticVertex(this.x + i * this.spacing, this.y + this.h, this.x + i * this.spacing, this.y + this.h - this.r);
-                    endShape(CLOSE);
-                }
-            pop();
-        pop();
     }
     
     this.waveformGraphics = function()

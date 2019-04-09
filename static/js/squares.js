@@ -8,7 +8,7 @@ function Square(attack, decay, sustain, release) {
     this.sustain = sustain;
     this.release = release;
     
-    for (var i = 0; i < keyboardLength; i++) {
+    for (var i = 0; i < 13; i++) {
         this.waves.push(0);
         this.envelopes.push(new maximJs.maxiEnv());
         this.envelopes[i].setAttack(this.attack);
