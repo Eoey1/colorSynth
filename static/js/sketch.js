@@ -85,11 +85,11 @@ function setup() {
         
         trigs.push(0);
     }
+    
+    midiKeyboard = new Keyboard(margin, margin * 1.5);
 
-    console.log(margin);
-    var goldenRatio = width - (width / 1.61803398875);
-    midiKeyboard = new Keyboard(margin, margin * 1.5, goldenRatio, goldenRatio / 2);
-    //midiKeyboard = new Keyboard(margin * 2, margin * 1.5, width * 0.3, width * 0.15);
+    //var goldenRatio = width - (width / 1.61803398875);
+    //midiKeyboard = new Keyboard(margin * 4, margin * 4, width * 0.15, width * 0.075);
 }
 
 function draw() {   
@@ -366,6 +366,7 @@ function windowResized() {
     noiseGen.resize();
     sequencer.resize();
     dial.resize();
+    midiKeyboard.resize();
 }
 
 function button0CB() {

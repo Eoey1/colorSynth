@@ -1,4 +1,4 @@
-function Keyboard(x, y, width, height) {  
+function Keyboard(x, y) {  
     //colours in HSL
     this.hsl = [[0, 100, 50], [274, 100, 50], [60, 100, 50], [323, 45, 50], [193, 100, 88], [342, 100, 34], [234, 97, 75], [30, 100, 50], [271, 96, 72], [120, 60, 50], [341, 28, 53], [209, 100, 78], [0, 100, 50]];
     
@@ -42,12 +42,12 @@ function Keyboard(x, y, width, height) {
         this.accidentals[i].splice(6, 1);
     }
 
+    this.goldenRatio = 1.61803398875;
+    
     this.xPos = x;
     this.yPos = y;
-    this.width = width;
-    this.height = height;
-
-    this.goldenRatio = 1.61803398875;
+    this.width = width - (width / this.goldenRatio);
+    this.height = this.width / 2;
     
     this.presetButtons = [];
 
@@ -102,17 +102,13 @@ function Keyboard(x, y, width, height) {
 
         push();
         translate(this.xPos, this.yPos);
-        //translate(this.width * 0.07648, this.width * 0.07648)
         
         push();
         strokeCap(PROJECT);
-        this.waveformGraphics();
+        this.waveformGraphicsButtons();
         pop();
         
-        translate(this.width * 0.69444, this.width * 0.444444);
-        scale(this.width * 0.00111);
-        this.waveformGraphics2();
-        pop();
+        this.waveformGraphicsFaders();
         
         pop();
     }
@@ -133,10 +129,8 @@ function Keyboard(x, y, width, height) {
     }
 
     this.resize = function() {
-        this.width = width;
-        this.height = height;
-
-
+        this.width = width - (width / this.goldenRatio);
+        this.height = this.width / 2;
     }
     
     this.chassis = function() {
@@ -586,189 +580,87 @@ function Keyboard(x, y, width, height) {
         }
     }
     
-    this.waveformGraphics = function()
+    this.waveformGraphicsButtons = function()
     {
-        push();
-        scale(this.width * 0.002638);
+        var thickness = 0.00555 * this.width;
 
-        push();
-        translate(- this.width * 0.0037, this.width * 0.0037037);
-        this.sine();
-        pop();
-
-        push();
-        translate(0, this.width * 0.0037037);
-        this.square();
-        pop();
-
-        push();
-        translate(- this.width * 0.00185, this.width * 0.0037037);
-        this.saw();
-        pop();
-
-        push();
-        translate(this.width * 0.0055, this.width * 0.0055);
-        this.triangle();
-        pop();
-
-        pop();
-    }
-    
-    this.waveformGraphics2 = function()
-    {
-        push();
-        translate(this.width * 0.02222, - this.width * 0.00740);
-        this.sine2();
-        pop();
-        push();
-        translate(this.width * 0.01111, - this.width * 0.00740);
-        this.square2();
-        pop();
-        push();
-        translate(- this.width * 0.01111, - this.width * 0.00740);
-        this.saw2();
-        pop();
-        push();
-        translate(- this.width * 0.0259, - this.width * 0.00740);
-        this.triangle2();
-        pop();
+        this.sine(this.width * 7 / 54, this.width / 24, thickness, this.width / 67.5);
+        this.square(this.width * 8 / 27, this.width / 24, thickness, this.width / 30);
+        this.saw(this.width * 25 / 54, this.width / 24, thickness, this.width / 30);
+        this.triangle(this.width * 17 / 27, this.width / 24, thickness, this.width / 30);
     }
 
-    
-    this.sine = function()
+    this.waveformGraphicsFaders = function()
+    {
+        var thickness = this.width * 0.0037;
+
+        this.sine(this.width * 41 / 54, 49 / 108 * this.width, thickness, this.width * 0.00648);
+        this.square(this.width * 111 / 135, this.width * 49 / 108 , thickness, this.width * 0.0148);
+        this.saw(this.width * 119 / 135, this.width * 49 / 108 , thickness, this.width * 0.0148);
+        this.triangle(this.width * 127 / 135, this.width * 49 / 108 , thickness, this.width * 0.0148);
+    }
+
+    this.sine = function(x, y, thickness, size)
     {   
         push();
-        scale(0.00111 * this.width);
-        translate(0.148 * this.width, this.width * 0.037);
-        stroke(255);
-        strokeWeight(this.width * 0.005555);
+        
         this.a = 0.0;
         this.inc = TWO_PI / 25.0;
+
+        stroke(255);
+        strokeWeight(thickness);
     
         beginShape();
         noFill();
         for (var i = 0; i < 25; i++) 
         {
-            vertex(i * 2, 10 + sin(this.a) * 15.0);
+            vertex(x + i * size / 5, y + size + sin(this.a) * size * 1.5);
             this.a = this.a + this.inc;
         }
         endShape();
+
         pop();
     }
     
-    this.sine2 = function()
-    {   
-        push();
-        scale(0.00111 * this.width);
-        translate(0.148 * this.width, this.width * 0.037);
-        stroke(255);
-        strokeWeight(this.width * 0.00925);
-        this.a = 0.0;
-        this.inc = TWO_PI / 25.0;
-    
-        beginShape();
-        noFill();
-        for (var i = 0; i < 25; i++) 
-        {
-            vertex(i * 2, 10 + sin(this.a) * 15.0);
-            this.a = this.a + this.inc;
-        }
-        endShape();
-        pop();
-    }
-    
-    this.square = function()
+    this.square = function(x, y, thickness, size)
     {
         push();
+
         stroke(255);
-        strokeWeight(this.width * 0.00555);
-        translate(this.width * 0.2037, this.width * 0.0222);
-        scale(0.00111 * this.width);
+        strokeWeight(thickness);
 
-        this.w = this.width * 0.037;
-
-        line(0, 0, 0, this.w);
-        line(0, 0, this.w, 0);
-        line(this.w, 0, this.w, this.w);
-        line(this.w, this.w, this.w * 2, this.w);
-        line(this.w * 2, this.w, this.w * 2, 0);
-
-        pop();
-    }
-    this.square2 = function()
-    {
-        push();
-        stroke(255);
-        strokeWeight(this.width * 0.00925);
-        translate(110, 12);
-        scale(0.00111 * this.width);
-
-
-        this.w = this.width * 0.037;
-
-        line(0, 0, 0, this.w);
-        line(0, 0, this.w, 0);
-        line(this.w, 0, this.w, this.w);
-        line(this.w, this.w, this.w * 2, this.w);
-        line(this.w * 2, this.w, this.w * 2, 0);
+        line(x, y, x, y + size);
+        line(x, y, x + size, y);
+        line(x + size, y, x + size, y + size);
+        line(x + size, y + size, x + size * 2, y + size);
+        line(x + size * 2, y + size, x + size * 2, y);
 
         pop();
     }
     
-    this.saw = function()
+    this.saw = function(x, y, thickness, size)
     {
         push();
+
         stroke(255);
-        strokeWeight(this.width * 0.00555);
-        scale(0.00111 * this.width);
+        strokeWeight(thickness);
+        
+        line(x, y + size, x + size * 2, y);
+        line(x + size * 2, y, x + size * 2, y + size);
 
-        this.w = this.width * 0.037;
-
-        translate(this.width * 0.52777, this.w);
-        line(0, this.w, this.w * 2, 0);
-        line(this.w * 2, 0, this.w * 2, this.w);
         pop();
     }
-    
-    this.saw2 = function()
+
+    this.triangle = function(x, y, thickness, size)
     {
         push();
-        stroke(255);
-        strokeWeight(this.width * 0.00925);
-        scale(0.00111 * this.width);
 
-        this.w = this.width * 0.037;
-
-        translate(this.width * 0.52777, this.w);
-        line(0, this.w, this.w * 2, 0);
-        line(this.w * 2, 0, this.w * 2, this.w);
-        pop();
-    }
-    
-    this.triangle = function()
-    {
-        push();
         stroke(255);
-        strokeWeight(this.width * 0.005555);
-        translate(this.width * 0.429629, this.width * 0.0222);
-        scale(0.00111 * this.width);
+        strokeWeight(thickness);
+      
+        line(x, y + size, x + size, y);
+        line(x + size, y, x + size * 2, y + size);
 
-        this.w = this.width * 0.037;
-        line(0, this.w, this.w, 0);
-        line(this.w, 0, this.w * 2, this.w);
-        pop();
-    }
-    
-    this.triangle2 = function()
-    {
-        push();
-        stroke(255);
-        strokeWeight(this.width * 0.00925);
-        translate(this.width * 0.429629, this.width * 0.0222);
-        scale(0.00111 * this.width);
-        this.w = this.width * 0.037;
-        line(0, this.w, this.w, 0);
-        line(this.w, 0, this.w * 2, this.w);
         pop();
     }
 }
