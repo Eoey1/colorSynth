@@ -393,7 +393,10 @@ function Sequencer(x, y) {
                     } 
                 }
 
-                this.set[1] = true;    
+                this.set[1] = true;   
+                
+                //set fader level
+                midiKeyboard.sh[2].sliderY = midiKeyboard.sh[0].y - midiKeyboard.sh[0].lineLength * 2 / 5;
             }  
         }
         

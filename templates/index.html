@@ -4,41 +4,21 @@
     
   <meta charset="UTF-8">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">    
-    
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mr+Bedfort&effect=emboss">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Condiment&effect=emboss">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&effect=emboss">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Condiment|Orbitron|Comfortaa|Josefin+Sans">
   
   <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='lib/p5.min.js') }}"></script>
   <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='lib/p5.dom.js') }}"></script>
   <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='lib/maxiLib.js') }}"></script>
   <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='lib/maxiExtras.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/sketch.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/keyboard.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/note.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/buttons.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/controls.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/noisegen.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/oscilloscope.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/elektron.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/neutron.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/sh101.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/highpass.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/circledial.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/sines.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/squares.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/saws.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/triangles.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/onepoles.js') }}"></script>
-  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='js/sequencer.js') }}"></script> 
+
+  {% assets "js_all" %}
+  <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='gen/packed.js') }}"></script>
+  {% endassets %}
+
   <style></style>
     
   <body>
   <div id="sketch-div"></div>  
   </body>
-    
-<!--<div id="noisegen" class="font-effect-emboss"></div>-->
-    
 </head>
 </html>

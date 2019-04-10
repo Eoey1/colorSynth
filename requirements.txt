@@ -1,2 +1,6 @@
 Flask==1.0.2
 gunicorn==19.9.0
+Flask-Assets==0.12
+webassets==0.12.1
+cssmin==0.2.0
+jsmin==2.2.2
