@@ -10,7 +10,7 @@ function Sequencer(x, y) {
     this.click = new maximJs.maxiSample();
     this.isPlaying = true;
     
-    audio.loadSample("../sounds/808-clave.wav", this.click);
+    //audio.loadSample("../sounds/808-clave.wav", this.click);
     
     this.letters = [' _', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B', 'C'];  
     
