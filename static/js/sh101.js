@@ -16,31 +16,17 @@ function Sh(x, y, length) {
     
     this.draw = function() {
        
-        noStroke();
-        fill(100);
-        //rect(this.x - 15, this.y - (this.lineLength + this.h), this.w + 10, this.lineLength + this.h * 2);
-        
-//        strokeCap(SQUARE);
-//        stroke(100);
-//        strokeWeight(6.5);
-//        line(this.x, this.lineY, this.x, this.lineY - this.lineLength);
-
-        //stroke(150);
-        //stroke(100);
         stroke(70);
-//        strokeWeight(10);
         strokeWeight(length * 0.03793);
         strokeCap(SQUARE);
-//        strokeCap(ROUND);
         line(this.x, this.lineY, this.x, this.lineY - this.lineLength);
-        
         
         stroke(70);
         line(this.x, this.lineY, this.x, this.lineM);
         
         noStroke();
         fill(75);
-        //fill(125);
+
         beginShape()
         vertex(this.sliderX, this.sliderY + this.r);
         quadraticVertex(this.sliderX, this.sliderY, this.sliderX + this.r, this.sliderY);
@@ -88,5 +74,21 @@ function Sh(x, y, length) {
     
     this.mapping = function() {
         this.faderValue = map(this.sliderY + this.h / 2, this.lineY, this.lineY - this.lineLength, 0, 1);    
+    }
+
+    this.resize = function(x, y, length) {
+        this.lineLength = length;
+
+        this.w = length * 0.1379;
+        this.h = this.w;
+
+        this.x = x;
+        this.y = y;
+
+        this.sliderX = this.x - this.w / 2;
+        this.sliderY = this.y - this.h / 2;
+
+        this.lineY = y;
+        this.lineM = y;
     }
 }

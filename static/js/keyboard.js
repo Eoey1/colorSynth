@@ -66,7 +66,9 @@ function Keyboard(x, y) {
     }
     
     for (var i = 0; i < 4; i++) {
-        this.sh.push(new Sh(this.xPos + this.width * 0.777 + i * this.width * 0.060185, this.yPos + this.height * 0.7962963, this.height * 0.537));
+        this.sh.push(new Sh(this.xPos + this.width * 0.777 + i * this.width * 0.060185, 
+                            this.yPos + this.height * 0.7962963,
+                            this.height * 0.537));
     }
     
     for (var i = 0; i < 4; i++) {
@@ -131,6 +133,21 @@ function Keyboard(x, y) {
     this.resize = function() {
         this.width = width - (width / this.goldenRatio);
         this.height = this.width / 2;
+
+        for (var i = 0; i < this.sh.length; i++) {
+            this.sh[i].resize(this.xPos + this.width * 0.777 + i * this.width * 0.060185,
+                              this.yPos + this.height * 0.7962963,
+                              this.height * 0.537);
+        }
+
+        this.diam = this.width / 18;
+        this.buttonX = this.xPos + this.width / 12;
+        this.buttonY = this.yPos + this.height / 9;
+        this.spacing = this.width / 6;
+
+        for (var i = 0; i < 4; i++) {
+            this.presetButtons[i].resize(this.buttonX + i * this.spacing, this.buttonY, this.diam);
+        }
     }
     
     this.chassis = function() {

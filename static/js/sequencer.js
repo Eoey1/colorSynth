@@ -694,9 +694,15 @@ function Sequencer(x, y) {
         this.xPos = width / 2 - margin;
         this.yPos = height / 2 + height / 15;
         
+        // Screen dimensions: 1280, 726
+        // height / 3 = 242
+        // Think it looks nicer when resizing relative to width...
+
         //resize dimensions
         this.width = width / 2;
-        this.height = height / 3;
+        this.width = width / 2;
+        //this.height = height / 3;
+        this.height = width / 5.289;
         this.spacing = this.width * 2 / 17;
         this.displayWidth = this.spacing * 3 / 4; 
         this.displayHeight = this.displayWidth * 2 / 3;

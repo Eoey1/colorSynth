@@ -1,6 +1,6 @@
-function Button(center_x, center_y, dim) {
-    this.width = dim;
-    this.height = dim;
+function Button(center_x, center_y, diam) {
+    this.width = diam;
+    this.height = diam;
     this.topLeft = createVector(center_x - this.width / 2, center_y - this.height / 2);
     this.bottomRight = createVector(center_x + this.width / 2, center_y + this.height / 2);
     this.isActive = false;
@@ -37,5 +37,12 @@ function Button(center_x, center_y, dim) {
         if (this.onPressed != undefined) {
             this.onPressed();
         }
+    }
+
+    this.resize = function(center_x, center_y, diam){
+        this.width = diam;
+        this.height = diam;
+        this.topLeft = createVector(center_x - this.width / 2, center_y - this.height / 2);
+        this.bottomRight = createVector(center_x + this.width / 2, center_y + this.height / 2);
     }
 }

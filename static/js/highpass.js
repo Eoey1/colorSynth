@@ -289,7 +289,16 @@ function Dial(x, y, size) {
         var margin = height / 20;
         
         this.centreX = width / 2 + margin;
-        this.centreY = height / 5 + margin;
-        this.radius = height / 12;   
+        //this.centreY = height / 5 + margin;
+        //this.radius = height / 12;   
+
+        // height / 5 = 145.2
+        // width / 145.2 = 8.82
+        // height / 12 = 60.5
+        // height / 14 = 51.85 - changed to height / 14 in setup
+        // width / 60.5 = 21.15
+        // width / 51.85 = 21.15
+        this.centreY = width / 8.8 + margin;
+        this.radius = width / 24.71;   
     }
 }    

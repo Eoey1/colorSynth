@@ -35,10 +35,12 @@ var canvas;
 
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
-    //canvas = createCanvas(displayWidth, displayHeight);
     canvas.position(0, 0);
     canvas.parent('sketch-div');
     canvas.style('z-index', '-1');
+
+    console.log(width);
+    console.log(height);
     
     audio.play = audioLoop;
     audio.outputIsArray(true, 2); //we are working stereo now !
@@ -46,16 +48,13 @@ function setup() {
     
     var margin = height / 20;
     
-    //why is keyboard setup last?
-    //midiKeyboard = new Keyboard(margin, margin);
-    
     oscilloscope = new Oscilloscope(width - width / 3, height / 10);
     
     noiseGen = new Generator(margin, height / 2 + margin);
     
     sequencer = new Sequencer(width / 2 - margin, height / 2 + height / 15);
     
-    dial = new Dial(width / 2 + margin, height / 5 + margin, height / 12);
+    dial = new Dial(width / 2 + margin, height / 5 + margin, height / 14);
     
     controls = new Controls();
     
@@ -72,6 +71,10 @@ function setup() {
     isPreset1 = isPreset2 = isPreset3 = isPreset4 = false;
     
     onePoles = new Poles();
+
+    // Keyboard needs to be set up after everything else because it uses
+    // onePoles in it's setup etc
+    midiKeyboard = new Keyboard(margin, margin * 1.5);
     
     for (var i = 0; i < 4; i++) {
         notes.push(new Array(12));
@@ -85,11 +88,6 @@ function setup() {
         
         trigs.push(0);
     }
-    
-    midiKeyboard = new Keyboard(margin, margin * 1.5);
-
-    //var goldenRatio = width - (width / 1.61803398875);
-    //midiKeyboard = new Keyboard(margin * 4, margin * 4, width * 0.15, width * 0.075);
 }
 
 function draw() {   
