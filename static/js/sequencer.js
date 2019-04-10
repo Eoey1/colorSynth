@@ -258,7 +258,7 @@ function Sequencer(x, y) {
 
                 //metronome, trigger every beat!
                 if (this.playhead % 4 == 1) {
-                    this.click.trigger();
+                    //this.click.trigger();
                 }
                 
                 // these are the ready made sequences that can be triggered by the coloured buttons on the sequencer
@@ -277,14 +277,14 @@ function Sequencer(x, y) {
             }
             
             if (this.isClick && this.click.isReady()) {
-                this.metronome = this.click.playOnce();
+                //this.metronome = this.click.playOnce();
             } 
                 else {
-                this.metronome = 0;
+                //this.metronome = 0;
             }
         } else {
             this.currentCount = 0;
-            this.metronome = 0;
+            //this.metronome = 0;
         }
     }
     
