@@ -38,9 +38,6 @@ function setup() {
     canvas.position(0, 0);
     canvas.parent('sketch-div');
     canvas.style('z-index', '-1');
-
-    console.log(width);
-    console.log(height);
     
     audio.play = audioLoop;
     audio.outputIsArray(true, 2); //we are working stereo now !
