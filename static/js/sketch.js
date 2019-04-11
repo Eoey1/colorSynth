@@ -323,6 +323,7 @@ function mousePressed() {
     dial.pressed();
     sequencer.pressed();  
     noiseGen.dial.pressed();
+    midiKeyboard.changeOctave();
 }
 
 function mouseReleased() {

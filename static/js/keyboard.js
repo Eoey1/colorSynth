@@ -163,28 +163,28 @@ function Keyboard(x, y) {
 //        this.y = this.yPos + 12;
 //        this.w = this.width / 7;
 //        this.h = this.height / 8;
+
         this.x = this.xPos + this.width - this.width / 5 - 17;
         this.y = this.yPos + 15;
         this.w = this.width / 5;
         this.h = this.height / 9;
-        
-        
+                
         this.r = 4;
         
         //this is the code for the border that encases the plus / minus buttons
         
-//        noStroke();
-//        fill(80, 200);
-//        beginShape()
-//        vertex(this.x, this.y + this.r);
-//        quadraticVertex(this.x, this.y, this.x + this.r, this.y);
-//        vertex(this.x + this.w - this.r, this.y);
-//        quadraticVertex(this.x + this.w, this.y, this.x + this.w, this.y + this.r);
-//        vertex(this.x + this.w, this.y + this.h - this.r);
-//        quadraticVertex(this.x + this.w, this.y + this.h, this.x + this.w - this.r, this.y + this.h);
-//        vertex(this.x + this.r, this.y + this.h);
-//        quadraticVertex(this.x, this.y + this.h, this.x, this.y + this.h - this.r);
-//        endShape(CLOSE);
+    //    noStroke();
+    //    fill(80, 200);
+    //    beginShape()
+    //    vertex(this.x, this.y + this.r);
+    //    quadraticVertex(this.x, this.y, this.x + this.r, this.y);
+    //    vertex(this.x + this.w - this.r, this.y);
+    //    quadraticVertex(this.x + this.w, this.y, this.x + this.w, this.y + this.r);
+    //    vertex(this.x + this.w, this.y + this.h - this.r);
+    //    quadraticVertex(this.x + this.w, this.y + this.h, this.x + this.w - this.r, this.y + this.h);
+    //    vertex(this.x + this.r, this.y + this.h);
+    //    quadraticVertex(this.x, this.y + this.h, this.x, this.y + this.h - this.r);
+    //    endShape(CLOSE);
         
         noStroke();
         fill(245);
@@ -193,6 +193,12 @@ function Keyboard(x, y) {
         text("-      +", this.xPos + this.width - this.width / 5, this.yPos + this.height / 7);
         //text("-  +", this.xPos + this.width - this.width / 6 - 5, this.yPos + this.height / 7);
         //text("-  +", this.xPos + this.width - this.width / 9, this.yPos + this.height / 7);
+
+        // There are 8 characters, so size = 8 * textSize?
+        //stroke(255);
+        //noFill();
+        // rect(this.xPos + this.width - this.width * 33 / 160, this.yPos + this.height / 7 - this.width / 27, this.width / 27, this.width / 27);
+        // rect(this.xPos + this.width - this.width * 7 / 80, this.yPos + this.height / 7 - this.width / 27, this.width / 27, this.width / 27);
     }
     
     this.whiteKeys = function() {   
@@ -368,6 +374,31 @@ function Keyboard(x, y) {
                 }
             pop();
         pop();
+    }
+
+    this.changeOctave = function() {
+        if (mouseX > this.xPos + this.width - this.width * 33 / 160 && mouseX < this.xPos + this.width - this.width * 33 / 160 + this.width / 27) {
+            if (mouseY > this.yPos + this.height / 7 - this.width / 27 && mouseY < this.yPos + this.height / 7) {
+                if (octaveLevel > 0) {
+                    octaveLevel -= 1;
+                    console.log(octaveLevel);
+                }
+            }
+        }
+
+        if (mouseIsPressed) 
+        {
+            if (mouseX > this.xPos + this.width - this.width * 7 / 80 &&
+                mouseX < this.xPos + this.width - this.width * 7 / 80 + this.width / 27 &&
+                mouseY > this.yPos + this.height / 7 - this.width / 27 && 
+                mouseY < this.yPos + this.height / 7) 
+                
+                //if (octaveLevel < 2) {
+                    octaveLevel += 1;
+                    console.log(octaveLevel);
+                //}
+                
+        }
     }
     
     this.pressedFirst = function() {
